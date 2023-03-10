@@ -1,201 +1,80 @@
-@import url("https://fonts.googleapis.com/css2?family=Shantell+Sans&display=swap");
-
-body{
-    padding: 0;
-    margin: 0;
-    font-family: 'Raleway', sans-serif;
+body {
+  margin: 0;
 }
-nav {
-    background-color: #15d342;
-    padding: 10px 20px;
-  }
-  
-  nav .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  nav .navbar-middle li{
-    margin: auto;
-  }
-  nav .navbar-left a {
-    color: #FFFFFF;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  
-  nav .navbar-middle ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-  }
-  
-  nav .navbar-middle li {
-    margin: 0 15px;
-  }
-  
-  nav .navbar-middle a {
-    color: #FFFFFF;
-    text-decoration: none;
-    font-size: 1rem;
-  }
-  
-  nav .button {
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: background-color 0.2s, color 0.2s;
-    text-decoration: none;
-  }
-  
-  nav .button.login {
-    background-color: #FFFFFF;
-    color: #15d342;
-    margin-left: 20px;
-  }
-  
-  nav .button.register {
-    background-color: #15d342;
-    color: #FFFFFF;
-  }
-  
-  nav .button:hover {
-    background-color: #15d342;
-    color: #FFFFFF;
-  }
-  
-  nav .button.login:hover {
-    background-color: #15d342;
-    color: #FFFFFF;
-  }
-  
-  nav .button.register:hover {
-    background-color: #FFFFFF;
-    color: #15d342;
-  }
-  nav li a:hover {
-    background-color: #FFFFFF;
-    color: #15d342;
-    border: 8px solid white;
-    border-radius: 25px;
-  }
+
+/* =============== NavBar ============= */
 
 
-  /* =============== */
+.main-nav-wrapper a {
+  text-decoration: none;
+  color: #eeebee;
+}
+.main-nav-wrapper {
+  /* -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px); */
+  display: flex;
+  height: 10vh;
+  padding: 0 10vh;
+  background-color: #42eb85;
+  color: white;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.navbar {
+  
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90vw;
+  max-height: 5vh;
+}
+
+.main-nav-logo {
+  width: 25vh;
+  margin-right: 10vw;
+}
 
 
-   form {
-    max-width: 80%;
-    margin: 0 auto;
-    background-color: #f2f2f2;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  form input[type="text"],
-  form input[type="email"],
-  form textarea,
-  form select {
-    /* display: block; */
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-size: 16px;
-  }
-  
-  form select option {
-    font-size: 16px;
-  }
-  
-  form button[type="submit"] {
-    background-color: #50bd68;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  form button[type="submit"]:hover {
-    background-color: #15d342;
-  }
-  
+.main-nav-content {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  font-size: 1em;
+}
 
-  /* ===================== */
+.main-nav-content-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
 
-  footer {
-    background-color: #dfd5d5;
-    color: #221f1f;
-    display: flex;
-    justify-content: space-between;
-    padding: 30px 50px;
-  }
-  
-  footer .about-us h3,
-  footer .links h3,
-  footer .follow-us h3 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  footer .about-us p {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-  }
-  
-  footer .links ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  footer .links li {
-    margin-bottom: 10px;
-  }
-  
-  footer .links a {
-    color: #221f1f;
-    font-size: 16px;
-    text-decoration: none;
-  }
-  
-  footer .follow-us ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  footer .follow-us li {
-    margin-right: 10px;
-  }
-  
-  footer .follow-us a {
-    color: #221f1f;
-    font-size: 24px;
-    text-decoration: none;
-  }
-  
-  footer .follow-us a:hover {
-    opacity: 0.8;
-  }
-  
+.main-nav-login,
+.main-nav-register {
+  border: 1px solid white;
+  margin-left: 3px;
+  padding: 0.4em 0.7em;
+}
+
+.main-nav-register {
+  margin-left: 1.3em;
+}
+
+.main-nav-btn {
+  margin-left: 20vh;
+}
+
+/* =============== Welcome Page ============= */
+
+.welcom-wraper{
+  margin: 0 10vw;
+  padding: 20px 25px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+  border-radius: 20px;
+  height: 80vh;
+}
