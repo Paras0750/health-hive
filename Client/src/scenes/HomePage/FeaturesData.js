@@ -4,7 +4,8 @@ export const dataFeatures = [
         imgSrc: "https://source.unsplash.com/random",
         title: "Personalized Meal",
         desc: "faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor nec feugiat nisl pretium fusce id velit ut tortor",
-        btn: "Personalise Meal",        
+        btn: "Personalise Meal",
+        herf: "/meal",      
     },
     {
         id: 2,
@@ -12,6 +13,7 @@ export const dataFeatures = [
         title: "Nutritional Analysis",
         desc: "faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor nec feugiat nisl pretium fusce id velit ut tortor",
         btn: "Analysis",
+        herf: "/analysis",      
     },
     {
         id: 3,
@@ -19,6 +21,7 @@ export const dataFeatures = [
         title: "Recipe Managment",
         desc: "faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor nec feugiat nisl pretium fusce id velit ut tortor",
         btn: "Find a Recipe",
+        herf: "/recipe", 
     },
     {
         id: 4,
@@ -26,5 +29,6 @@ export const dataFeatures = [
         title: "Support/Live Contact",
         desc: "faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus purus in massa tempor nec feugiat nisl pretium fusce id velit ut tortor",
         btn: "Contact Us",
+        herf: "/support", 
     },
 ];

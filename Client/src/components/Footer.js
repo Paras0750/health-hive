@@ -49,9 +49,7 @@ const Footer = () => {
                 </Typography>
                 <Box className={classes.box}>
                   <Typography display="block">Features</Typography>
-
                   <Typography display="block">Pricing</Typography>
-
                   <Typography display="block">Reviews</Typography>
                   <Typography display="block">Updates</Typography>
                 </Box>
@@ -65,12 +63,12 @@ const Footer = () => {
                     Personalized Meal
                   </Typography>
                 </Link>
-                <Link sx={{ textDecoration: "none" }} href="/">
+                <Link sx={{ textDecoration: "none" }} href="/analysis">
                   <Typography className={classes.link}>
                     Nutritional Analysis
                   </Typography>
                 </Link>
-                <Link sx={{ textDecoration: "none" }} href="/">
+                <Link sx={{ textDecoration: "none" }} href="/recipe">
                   <Typography className={classes.link}>
                     Recipe Managment
                   </Typography>

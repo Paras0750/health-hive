@@ -2,15 +2,16 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& > *': {
+    "& > *": {
       margin: theme.spacing(1),
     },
   },
-  navbar:{
+  navbar: {
     marginBottom: "60px",
-    // backgroundColor: "#45D592"
-  },head:{
-    color: "#26D699"
+    backgroundColor: "#45D592",
+  },
+  head: {
+    color: "#26D699",
   },
   cardGrid: {
     padding: "10px 0",
@@ -34,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     display: "block",
-    textDecoration: 'none',
-    color: 'black',    
+    textDecoration: "none",
+    color: "black",
   },
   footerSec: {
     padding: "10px",
@@ -53,7 +54,8 @@ const useStyles = makeStyles((theme) => ({
   },
   box: {
     height: "100%",
-  },dialogWrapper: {
+  },
+  dialogWrapper: {
     padding: "3em",
     position: "absolute",
     top: "5em",
