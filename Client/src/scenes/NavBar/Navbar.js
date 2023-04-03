@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from "../../state/state";
+import { InputBase, Select, MenuItem, FormControl } from "@mui/material";
 import {
   Typography,
   AppBar,
@@ -10,15 +13,12 @@ import {
   Link,
 } from "@material-ui/core";
 import useStyles from "../../components/style";
+import FlexBetween from "../../components/FlexBetween";
 
 const pages = [
   {
     name: "Personalized Meal",
     herf: "/meal",
-  },
-  {
-    name: "BMI ",
-    herf: "/bmi",
   },
   {
     name: "Nutritional Analysis",
@@ -36,10 +36,19 @@ const pages = [
 
 const Navbar = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  let fullName = "";
+
+  if (user && user.firstName && user.lastName) {
+    fullName = `${user.firstName} ${user.lastName}`;
+  }
 
   return (
     <>
       <CssBaseline />
+
       <AppBar position="relative" className={classes.navbar}>
         <Toolbar>
           <Grid
@@ -69,18 +78,51 @@ const Navbar = () => {
               </Box>
             </Grid>
             <Grid item md={2}>
-              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <Link sx={{ textDecoration: "none" }} href="/login">
-                  <Button>
-                    <Typography className={classes.text}>Login</Typography>
-                  </Button>
-                </Link>
-                <Link sx={{ textDecoration: "none" }} href="/register">
-                  <Button>
-                    <Typography className={classes.text}>Register</Typography>
-                  </Button>
-                </Link>
-              </Box>
+              {user ? (
+                <FlexBetween gap="2rem">
+                  <FormControl
+                    sx={{ color: "white" }}
+                    variant="standard"
+                    value={fullName}
+                    color="white"
+                  >
+                    <Select
+                      value={fullName}
+                      sx={{
+                        color: "white",
+                        width: "180px",
+                        borderRadius: "0.25rem",
+                        p: "0.25rem 1rem",
+                        "& .MuiSvgIcon-root": {
+                          pr: "0.25rem",
+                          width: "3rem",
+                        }
+                      }}
+                      input={<InputBase />}
+                    >
+                      <MenuItem color="white" value={fullName}>
+                        <Typography color="white" margin="10px">{fullName}</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={() => dispatch(setLogout())}>
+                        Log Out
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </FlexBetween>
+              ) : (
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Link sx={{ textDecoration: "none" }} href="/login">
+                    <Button>
+                      <Typography className={classes.text}>Login</Typography>
+                    </Button>
+                  </Link>
+                  <Link sx={{ textDecoration: "none" }} href="/register">
+                    <Button>
+                      <Typography className={classes.text}>Register</Typography>
+                    </Button>
+                  </Link>
+                </Box>
+              )}
             </Grid>
           </Grid>
         </Toolbar>
