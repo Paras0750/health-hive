@@ -26,9 +26,9 @@ const SingleRecipe = () => {
       <h3>Ingredients:</h3>
       <ul>
         {recipe.extendedIngredients &&
-          recipe.extendedIngredients.map((item) => {
+          recipe.extendedIngredients.map((item, index) => {
             return (
-              <li>
+              <li key={index}>
                 {item.nameClean} <br />
                 {item.unit === item.measures.metric.unitShort
                   ? item.amount + " " + item.unit
@@ -46,8 +46,12 @@ const SingleRecipe = () => {
       <h3>Instructions:</h3>
       <ul>
         {recipe.analyzedInstructions &&
-          recipe.analyzedInstructions[0].steps.map((item,index) => {
-            return  <li>Step {item.number}: {item.step}</li>;
+          recipe.analyzedInstructions[0].steps.map((item, index) => {
+            return (
+              <li>
+                Step {item.number}: {item.step}
+              </li>
+            );
           })}
       </ul>
       {recipe.analyzedInstructions &&
