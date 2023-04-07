@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.js";
+import mealRoutes from "./routes/meal.js";
 
 /* Configurations */
 
@@ -22,7 +23,7 @@ app.use(cors());
 /* ROUTES */
 
 app.use("/auth", authRoutes);
-
+app.use("/meal", mealRoutes);
 
 /* MONGOOSE SETUP */
 
@@ -39,3 +40,5 @@ mongoose
   .catch((error) => {
     console.log(`Didn't connected : ${error}`);
   });
+
+

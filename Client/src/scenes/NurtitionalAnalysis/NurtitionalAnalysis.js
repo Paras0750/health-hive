@@ -34,9 +34,6 @@ const Recipe = () => {
   const [searchItem, setSearchItem] = useState("");
   const [foundArr, setFoundArr] = useState([...recipeData]);
   
-
-
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

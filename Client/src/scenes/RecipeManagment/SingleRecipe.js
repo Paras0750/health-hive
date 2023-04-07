@@ -8,7 +8,6 @@ const SingleRecipe = () => {
 
   useEffect(() => {
     fetch(
-      //   `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=d530179012ee4e238dd9730c30f0783a`
       `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=d530179012ee4e238dd9730c30f0783a&includeNutrition=false`
     )
       .then((response) => response.json())

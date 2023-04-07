@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "agora-react-uikit": "^1.2.0",
+    "agora-rtc-sdk": "^3.6.11",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -8,13 +10,14 @@
     "helmet": "^6.0.1",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.1",
+    "openai": "^3.2.1"
   },
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --experimental-modules index.js"

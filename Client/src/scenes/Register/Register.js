@@ -26,6 +26,7 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     };
+
     console.log(newdata);
 
     const savedUserResponse = await fetch(
@@ -39,8 +40,9 @@ export default function Login() {
       }
     );
     const savedUser = await savedUserResponse.json();
-    if(savedUser){
-      navigate("/login");
+    
+    if (savedUser) {
+      // navigate("/login");
     }
   };
 
