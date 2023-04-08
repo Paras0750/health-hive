@@ -27,7 +27,6 @@ export default function Login() {
       password: data.get("password"),
     };
 
-    console.log(newdata);
 
     const savedUserResponse = await fetch(
       "http://localhost:3002/auth/register",
@@ -42,7 +41,7 @@ export default function Login() {
     const savedUser = await savedUserResponse.json();
     
     if (savedUser) {
-      // navigate("/login");
+      navigate("/login");
     }
   };
 

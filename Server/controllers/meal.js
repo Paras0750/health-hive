@@ -43,7 +43,6 @@ export const generateMeal = async (req, res) => {
   console.log("Started generating meal");
 
   const { email } = req.body;
-
   try {
     await User.findOne({ email: email }, (err, user) => {
       if (err) {
@@ -81,3 +80,4 @@ export const generateMeal = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+

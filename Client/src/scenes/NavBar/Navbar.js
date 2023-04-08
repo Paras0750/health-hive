@@ -96,12 +96,22 @@ const Navbar = () => {
                         "& .MuiSvgIcon-root": {
                           pr: "0.25rem",
                           width: "3rem",
-                        }
+                        },
                       }}
                       input={<InputBase />}
                     >
                       <MenuItem color="white" value={fullName}>
-                        <Typography color="white" margin="10px">{fullName}</Typography>
+                        <Typography color="white" margin="10px">
+                          {fullName}
+                        </Typography>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link
+                          href="/myMealPlans"
+                          style={{ color: "black", textDecoration: "none" }}
+                        >
+                          My Meal Plans
+                        </Link>
                       </MenuItem>
                       <MenuItem onClick={() => dispatch(setLogout())}>
                         Log Out

@@ -1,5 +1,5 @@
 import express from "express";
-import { generateMeal, askGPT } from "../controllers/meal.js";
+import { generateMeal, askGPT } from "../controllers/meal.js"
 
 const router = express.Router();
 

@@ -3,7 +3,7 @@ import { Container, Grid } from "@material-ui/core";
 import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "../../components/style";
-import MealPopup from "./MealPopup";
+import { useSelector } from "react-redux";
 
 const diets = [
   "Anything",
@@ -23,9 +23,42 @@ const diets = [
 const PersonalMeal = () => {
   const classes = useStyles();
   const [selectedDiet, setSelectedDiet] = useState(null);
+  const [inputValue, setInputValue] = useState("Default");
+  const user = useSelector((state) => state.user);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
   const [diet, setDiet] = useState({
-    meals: [],
-    nutrients: {},
+    monday: {
+      meals: [],
+      nutrients: {},
+    },
+    tuesday: {
+      meals: [],
+      nutrients: {},
+    },
+    wednesday: {
+      meals: [],
+      nutrients: {},
+    },
+    thursday: {
+      meals: [],
+      nutrients: {},
+    },
+    friday: {
+      meals: [],
+      nutrients: {},
+    },
+    saturday: {
+      meals: [],
+      nutrients: {},
+    },
+    sunday: {
+      meals: [],
+      nutrients: {},
+    },
   });
   // const [openPopup, setOpenPopup] = useState(false);
 
@@ -42,7 +75,7 @@ const PersonalMeal = () => {
     const { diet, calories, exclude } = newdata;
 
     const dietResponse = await fetch(
-      `https://api.spoonacular.com/mealplanner/generate?timeFrame=day&targetCalories=${calories}&diet=${diet}&exclude=${exclude}&apiKey=9919efef79a9459d8545a1d37fb9ecc4`,
+      `https://api.spoonacular.com/mealplanner/generate?timeFrame=week&targetCalories=${calories}&diet=${diet}&exclude=${exclude}&apiKey=9919efef79a9459d8545a1d37fb9ecc4`,
       {
         method: "GET",
         headers: {
@@ -52,10 +85,57 @@ const PersonalMeal = () => {
     );
 
     const Diet = await dietResponse.json();
-
+    console.log("API DATA: ", Diet);
     setDiet(Diet);
   };
 
+  const saveMeal = async () => {
+    const PushData = {
+      name: inputValue,
+      items: [],
+      publishAsPublic: false,
+    };
+
+    var numday = 0;
+    for (const day in diet.week) {
+      numday += 1;
+      var slot = 0;
+      for (const meal in diet.week[day].meals) {
+        console.log(diet.week[day].meals[meal].id);
+        slot += 1;
+        PushData.items.push({
+          day: numday,
+          slot: slot,
+          position: 0,
+          type: "RECIPE",
+          value: {
+            id: diet.week[day].meals[meal].id,
+            servings: diet.week[day].meals[meal].servings,
+            title: diet.week[day].meals[meal].title,
+            imageType: diet.week[day].meals[meal].imageType,
+          },
+        });
+      }
+    }
+    console.log("Before Sending", PushData);
+
+    await fetch(
+      `https://api.spoonacular.com/mealplanner/${user.spoonacularUsername}/templates?hash=${user.spoonacularHash}&apiKey=9919efef79a9459d8545a1d37fb9ecc4`,
+      {
+        method: "POST",
+        body: JSON.stringify(PushData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => console.log("SENT DATA:", data))
+      .catch((error) => console.error("Error:", error));
+  };
+
+  // const mealsForWeek = diet.week;
+  // const days = Object.keys(mealsForWeek);
   return (
     <Container
       className={classes.container}
@@ -104,12 +184,7 @@ const PersonalMeal = () => {
               name="exclude"
               style={{ display: "block", margin: "12px" }}
             />
-            {/* <Typography>
-              Don't know? Calculate your information -
-              <Button variant="contained" onClick={() => setOpenPopup(true)}>
-                Calculate
-              </Button>
-            </Typography> */}
+
             <Button
               variant="contained"
               style={{ margin: "12px" }}
@@ -121,27 +196,11 @@ const PersonalMeal = () => {
         </Grid>
         <Grid item xs={false} sm={4} md={7}>
           <Box>
-            {diet.meals.length > 0 ? (
+            {diet ? (
               <Box>
-                <h3>Total Calories:</h3>
-                {diet.nutrients.calories}
-
-                <h5>Protine:</h5>
-                {diet.nutrients.protein}
-
-                <h5>Fat:</h5>
-                {diet.nutrients.fat}
-
-                <h5>Carbs:</h5>
-                {diet.nutrients.carbohydrates}
-
-
-                <h3>Breafast:</h3>
-                {diet.meals[0].title}
-                <h3>Lunch:</h3>
-                {diet.meals[1].title}
-                <h3>Dinner:</h3>
-                {diet.meals[2].title}
+                <input id="inputBox" type="text" onChange={handleInputChange} />
+                <br />
+                <button onClick={() => saveMeal()}>Save Meal Plan</button>
               </Box>
             ) : (
               <Typography variant="h3" style={{ padding: "120px" }}>
@@ -151,15 +210,24 @@ const PersonalMeal = () => {
           </Box>
         </Grid>
       </Grid>
-
-      {/* <MealPopup
-        title="Calories calculator"
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
-        diets={diets}
-      ></MealPopup> */}
     </Container>
   );
 };
 
 export default PersonalMeal;
+{
+  /* <MealPopup
+        title="Calories calculator"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+        diets={diets}
+      ></MealPopup> */
+}
+{
+  /* <Typography>
+              Don't know? Calculate your information -
+              <Button variant="contained" onClick={() => setOpenPopup(true)}>
+                Calculate
+              </Button>
+            </Typography> */
+}

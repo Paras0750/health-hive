@@ -1,0 +1,19 @@
+.meal-plan-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.meal-plan-row {
+  display: flex;
+}
+
+.meal-plan-cell {
+  flex: 1;
+}
+
+.meal-plan-header {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

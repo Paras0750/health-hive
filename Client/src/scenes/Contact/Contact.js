@@ -1,4 +1,3 @@
-import AgoraUIKit from "agora-react-uikit";
 import { Box } from "@mui/system";
 import React from "react";
 import Agora from "../VideoCalling/Agora";
