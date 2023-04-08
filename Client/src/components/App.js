@@ -14,6 +14,8 @@ import Recipe from "../scenes/RecipeManagment/Recipe";
 import SingleRecipe from "../scenes/RecipeManagment/SingleRecipe";
 import MyMealPlans from "../scenes/MyMealPlans/MyMealPlans";
 import MealPlanDetails from "../scenes/MyMealPlans/MealPlanDetails";
+import Agora from "../scenes/VideoCalling/Agora";
+import ChatBot from "../scenes/ChatBot/ChatBot";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
           <Route path="/recipe/:recipeId" element={<SingleRecipe />} />
           <Route path="/support" element={<Contact />} />
           <Route path="/myMealPlans" element={<MyMealPlans />} />
+          <Route path="/support/videoCall" element={<Agora />} />
+          <Route path="/chatBot" element={<ChatBot />} />
           <Route path="/myMealPlans/:id" element={<MealPlanDetails />} />
           <Route path="/bmi" element={<Bmi />} />
         </Routes>

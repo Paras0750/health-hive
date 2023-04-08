@@ -136,6 +136,16 @@ const PersonalMeal = () => {
 
   // const mealsForWeek = diet.week;
   // const days = Object.keys(mealsForWeek);
+
+  const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
   return (
     <Container
       className={classes.container}

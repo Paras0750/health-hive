@@ -10,14 +10,15 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export const askGPT = async (req, res) => {
+  console.log("Started asking GPT");
   try {
     const { prompt } = req.body;
 
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: ` Give suggestions for diet for one day exclude ${prompt} in it`,
+      prompt: ` ${prompt} `,
       temperature: 0.6,
-      max_tokens: 1000,
+      max_tokens: 500,
     });
     console.log({ result: completion.data.choices[0].text });
     return res.status(200).json({ result: completion.data.choices[0].text });

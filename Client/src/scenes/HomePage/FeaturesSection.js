@@ -26,8 +26,8 @@ export const FeaturesSection = () => {
         </Typography>
         <Container className={classes.cardGrid} maxWidth="md" shadow>
           <Grid container justifyContent="space-between" spacing={5}>
-            {dataFeatures.map((data) => (
-              <Grid item md={6}>
+            {dataFeatures.map((data,index) => (
+              <Grid key={index} item md={6}>
                 <Card>
                   <CardMedia
                     className={classes.cardMedia}

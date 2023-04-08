@@ -29,6 +29,10 @@ const pages = [
     herf: "/recipe",
   },
   {
+    name: "AI Chat Bot",
+    herf: "/chatBot",
+  },
+  {
     name: "Support",
     herf: "/support",
   },

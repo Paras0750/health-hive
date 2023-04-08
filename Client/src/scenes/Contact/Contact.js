@@ -1,12 +1,13 @@
 import { Box } from "@mui/system";
 import React from "react";
 import Agora from "../VideoCalling/Agora";
+import Banner from "./Banner/Banner";
 
 const Contact = () => {
   return (
     <div>
       <Box sx={{ padding: "50px 60px" }}>
-        <Agora />
+        <Banner />
       </Box>
     </div>
   );
