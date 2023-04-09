@@ -2,6 +2,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import fetch from "node-fetch";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 /* REGISTER USER */
 
@@ -17,7 +20,7 @@ export const register = async (req, res) => {
     };
 
     const spoonResponse = await fetch(
-      "https://api.spoonacular.com/users/connect?apiKey=d530179012ee4e238dd9730c30f0783a",
+      `https://api.spoonacular.com/users/connect?apiKey=${process.env.SPOONACULAR_API_KEY}`,
       {
         method: "POST",
         headers: {

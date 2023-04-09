@@ -1,10 +1,17 @@
 import express from "express";
-import { generateMeal, askGPT } from "../controllers/meal.js";
-import { weekPlan, allMealPlans } from "../controllers/weekPlan.js";
+import { searchRecipe, askGPT, findRecipes } from "../controllers/meal.js";
+import { weekPlan, allMealPlans, createWeekPlan, saveWeekPlan } from "../controllers/weekPlan.js";
 
 const router = express.Router();
 
-router.post("/generateMeal", generateMeal);
+router.post("/findRecipe", findRecipes);
+router.post("/recipeSearch", searchRecipe);
+
+
+router.post("/generateMeal", createWeekPlan);
+router.post("/saveMeal", saveWeekPlan);
+
+// router.post("/generateMeal", generateMeal);
 router.post("/askAI", askGPT);
 router.post("/weekPlan", weekPlan);
 router.post("/allMealPlans", allMealPlans);
