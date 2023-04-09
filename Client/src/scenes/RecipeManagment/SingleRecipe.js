@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./recipestyle.css";
-import { Avatar } from "@material-ui/core";
 
 const SingleRecipe = () => {
   const [recipe, setRecipe] = useState({});
@@ -9,13 +8,16 @@ const SingleRecipe = () => {
   const { recipeId } = useParams();
 
   useEffect(() => {
-    fetch(
-      //   `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=d530179012ee4e238dd9730c30f0783a`
-      `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=d530179012ee4e238dd9730c30f0783a&includeNutrition=false`
-    )
+    fetch(`http://localhost:3002/meal/recipeSearch`, {
+      method: "POST",
+      body: JSON.stringify({recipeId}),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
-      .then((data) => setRecipe(data))
-      .catch((error) => console.error(error));
+      .then((data) => setRecipe(data.data))
+      .catch((error) => console.error("Error:", error));
   }, [recipeId]);
 
   return (
@@ -47,7 +49,7 @@ const SingleRecipe = () => {
                             alt=""
                             style={{
                               height: "50px",
-                              width: "45px"
+                              width: "45px",
                             }}
                           />
                         }

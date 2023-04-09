@@ -72,12 +72,11 @@ const PersonalMeal = () => {
       exclude: data.get("exclude"),
     };
 
-    const { diet, calories, exclude } = newdata;
-
     const dietResponse = await fetch(
-      `https://api.spoonacular.com/mealplanner/generate?timeFrame=week&targetCalories=${calories}&diet=${diet}&exclude=${exclude}&apiKey=9919efef79a9459d8545a1d37fb9ecc4`,
+      `http://localhost:3002/meal/generateMeal`,
       {
-        method: "GET",
+        method: "POST",
+        body: JSON.stringify(newdata),
         headers: {
           "Content-Type": "application/json",
         },
@@ -120,10 +119,10 @@ const PersonalMeal = () => {
     console.log("Before Sending", PushData);
 
     await fetch(
-      `https://api.spoonacular.com/mealplanner/${user.spoonacularUsername}/templates?hash=${user.spoonacularHash}&apiKey=9919efef79a9459d8545a1d37fb9ecc4`,
+      `http://localhost:3002/meal/saveMeal`,
       {
         method: "POST",
-        body: JSON.stringify(PushData),
+        body: JSON.stringify({PushData, user}),
         headers: {
           "Content-Type": "application/json",
         },

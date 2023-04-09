@@ -14,19 +14,26 @@ function Recipe() {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    fetch(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=d530179012ee4e238dd9730c30f0783a&number=50&query=${searchTerm}`
-    )
+    fetch(`http://localhost:3002/meal/findRecipe`, {
+      method: "POST",
+      body: JSON.stringify({ searchTerm }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error(error));
+      .then((data) => {
+        console.log(data.data);
+        setData(data.data);
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>Recipies</h1>
+      <h1 style={{ textAlign: "center" }}>Recipes</h1>
       <form style={{ textAlign: "center" }} onSubmit={handleSearchSubmit}>
-        <label for="search">
+        <label htmlFor="search">
           <strong fontWeight="400px">Search for a recipe:</strong>
         </label>
         <input type="text" value={searchTerm} onChange={handleSearchChange} />
@@ -40,16 +47,15 @@ function Recipe() {
           border: "1px solid gray",
         }}
       >
-        {data.results.map((dish) => (
-          <Link to={`/recipe/${dish.id}`}>
-            <Dish
-              title={dish.title}
-              image={dish.image}
-              id={dish.id}
-              key={dish.id}
-            ></Dish>
-          </Link>
-        ))}
+        {data.results && data.results.length > 0 ? (
+          data.results.map((dish) => (
+            <Link to={`/recipe/${dish.id}`} key={dish.id}>
+              <Dish title={dish.title} image={dish.image} id={dish.id}></Dish>
+            </Link>
+          ))
+        ) : (
+          <div>No results found.</div>
+        )}
       </Paper>
     </div>
   );
