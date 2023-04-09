@@ -1,7 +1,9 @@
 import React from "react";
 import Banner from "./Banner";
 import FrontPage from "./Landing";
-import { FeaturesSection } from "./FeaturesSection";
+import FeaturesSection from "./FeaturesSection";
+
+
 
 const WelcomePage = () => {
   return (
