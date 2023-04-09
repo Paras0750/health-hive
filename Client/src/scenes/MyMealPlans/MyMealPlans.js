@@ -9,11 +9,17 @@ const MyMealPlans = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://api.spoonacular.com/mealplanner/${user.spoonacularUsername}/templates?apiKey=9919efef79a9459d8545a1d37fb9ecc4&hash=${user.spoonacularHash}`
-        );
+        const response = await fetch(`http://localhost:3002/meal/allMealPlans`, {
+          method: "POST",
+          body: JSON.stringify({ email: user.email }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
-        setMealPlans(data);
+        console.error("Recieved Data:", data);
+        setMealPlans(data.data);
+        console.error("Set Data:", data);
       } catch (error) {
         console.error("Error:", error);
       }

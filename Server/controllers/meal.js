@@ -1,8 +1,11 @@
 import fetch from "node-fetch";
 import { Configuration, OpenAIApi } from "openai";
 import dotenv from "dotenv";
+import User from "../models/user.js";
 
 dotenv.config();
+
+/* CHAT GPT INTEGRATION */
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -34,6 +37,7 @@ const ALLOWED_PROMPTS = [
 
 export const askGPT = async (req, res) => {
   console.log("Started asking GPT");
+  
   try {
     const { prompt } = req.body;
 
@@ -142,4 +146,3 @@ export const generateMeal = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-

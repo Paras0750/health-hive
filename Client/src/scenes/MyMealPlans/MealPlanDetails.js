@@ -6,27 +6,28 @@ import "./meal.css";
 const MealPlanDetails = () => {
   const user = useSelector((state) => state.user);
   const { id } = useParams();
-  const [weekPlan, setWeekPlan] = useState({
-    days: [],
-    id: null,
-    name: "",
-  });
+  const [weekPlan, setWeekPlan] = useState({ id: null, name: "", days: [] });
 
   useEffect(() => {
     const fetchMealPlanDetails = async () => {
       try {
-        const response = await fetch(
-          `https://api.spoonacular.com/mealplanner/${user.spoonacularUsername}/templates/${id}?apiKey=9919efef79a9459d8545a1d37fb9ecc4&hash=${user.spoonacularHash}`
-        );
+        const response = await fetch(`http://localhost:3002/meal/weekPlan`, {
+          method: "POST",
+          body: JSON.stringify({ id: id, email: user.email }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
-        setWeekPlan(data);
+        console.log("Recieved Data:", data);
+        setWeekPlan(data.data);
       } catch (error) {
         console.error("Error fetching meal plan details:", error);
       }
     };
 
     fetchMealPlanDetails();
-  }, [user.spoonacularUsername, user.spoonacularHash, id]);
+  }, [id, user.email]);
 
   const daysOfWeek = [
     "Monday",
