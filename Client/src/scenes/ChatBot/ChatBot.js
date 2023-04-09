@@ -79,18 +79,39 @@ function App() {
           <BeatLoader color="#36d7b7" />
         </div>
       )}
-      {response && (
-        <div
+      {response &&
+  response
+    .split(/\n|<img/)
+    .map((line, index) =>
+      line.startsWith(" src=") ? (
+        <img
+          key={index}
+          src={line.slice(6, -1)}
+          alt="related image"
+          width="300"
+        />
+      ) : line.startsWith(" Support page link:") ? (
+        <button
+          key={index}
+          onClick={() => window.location.href = "http://localhost:3000/support"}
           style={{
-            backgroundColor: "#fff",
-            padding: "20px",
+            backgroundColor: "#4caf50",
+            color: "#fff",
+            padding: "10px 20px",
             borderRadius: "20px",
-            marginTop: "20px",
+            border: "none",
+            outline: "none",
+            cursor: "pointer",
           }}
         >
-          <p>{response}</p>
-        </div>
-      )}
+          Visit Support Page
+        </button>
+      ) : (
+        <p key={index}>{line}</p>
+      )
+    )}
+
+
     </div>
   );
 }
