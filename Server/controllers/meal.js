@@ -68,6 +68,11 @@ const openai = new OpenAIApi(configuration);
 
 // Define the set of keywords/phrases that the chatbot will respond to
 const ALLOWED_PROMPTS = [
+  "foods",
+  "food",
+  "recipes",
+  "lose weight",
+  "weight",
   "Hello",
   "hello",
   "Hi",
@@ -85,6 +90,10 @@ const ALLOWED_PROMPTS = [
   "grocery list",
   "navigation",
   "Live Support",
+  "drink",
+  "water",
+  "diet",
+  "support",
   "Dietician",
 ];
 
@@ -98,11 +107,6 @@ export const askGPT = async (req, res) => {
     const isAllowedPrompt = ALLOWED_PROMPTS.some((keyword) =>
       prompt.toLowerCase().includes(keyword.toLowerCase())
     );
-    if (prompt.toLowerCase().includes("live support" || "dietician")) {
-      return res.status(200).json({
-        result: " Support page link:http://localhost:3000/support",
-      });
-    }
 
     // If the prompt is not related to the allowed topics, return an error message
     if (!isAllowedPrompt) {

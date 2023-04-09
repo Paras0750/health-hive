@@ -6,8 +6,20 @@ function App() {
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const sampleQueries = [
+    "What are some healthy breakfast options?",
+    "Can you suggest some vegetarian meal ideas?",
+    "How much water should I drink in a day?",
+    "What are some foods to avoid when trying to lose weight?",
+    "Can you suggest some healthy snack options?",
+  ];
+
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
+  };
+
+  const handleButtonClick = (query) => {
+    setInputValue(query);
   };
 
   const handleSubmit = async (event) => {
@@ -41,6 +53,34 @@ function App() {
       <div style={{ textAlign: "center", margin: "40" }}>
         <h1 style={{ color: "#4caf50" }}>Hello! I am Chat Bot</h1>
         <p>Ask Me Anything</p>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
+        {sampleQueries.map((query, index) => (
+          <button
+            key={index}
+            onClick={() => handleButtonClick(query)}
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#000000",
+              padding: "10px 20px",
+              borderRadius: "20px",
+              border: "1px solid #4caf50",
+              outline: "none",
+              marginRight: "10px",
+              marginBottom: "10px",
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+          >
+            {query}
+          </button>
+        ))}
       </div>
       <form
         onSubmit={handleSubmit}
@@ -90,7 +130,23 @@ function App() {
           alt="related image"
           width="300"
         />
-      ) : line.startsWith(" Support page link:") ? (
+      ) : line.startsWith("Meal plan page") ? (
+        <button
+          key={index}
+          onClick={() => window.location.href = "http://localhost:3000/myMealPlans"}
+          style={{
+            backgroundColor: "#4caf50",
+            color: "#fff",
+            padding: "10px 20px",
+            borderRadius: "20px",
+            border: "none",
+            outline: "none",
+            cursor: "pointer",
+          }}
+        >
+          Visit Meal Plan Page
+        </button>
+      ) :line.startsWith(" Support page link:") ? (
         <button
           key={index}
           onClick={() => window.location.href = "http://localhost:3000/support"}
