@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Container, Grid } from "@material-ui/core";
+import { CircularProgress, Container, Grid } from "@material-ui/core";
 import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "../../components/style";
 import { useSelector } from "react-redux";
-import MyTable from "./MyTable";
 
 const diets = [
   "Anything",
@@ -26,6 +25,7 @@ const PersonalMeal = () => {
   const [selectedDiet, setSelectedDiet] = useState(null);
   const [inputValue, setInputValue] = useState("Default");
   const user = useSelector((state) => state.user);
+  const [loadingGenerateMeal, setLoadingGenerateMeal] = useState(false);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -61,9 +61,40 @@ const PersonalMeal = () => {
       nutrients: {},
     },
   });
-  // const [openPopup, setOpenPopup] = useState(false);
+
+  const [diet2, setDiet2] = useState({
+    monday: {
+      meals: [],
+      nutrients: {},
+    },
+    tuesday: {
+      meals: [],
+      nutrients: {},
+    },
+    wednesday: {
+      meals: [],
+      nutrients: {},
+    },
+    thursday: {
+      meals: [],
+      nutrients: {},
+    },
+    friday: {
+      meals: [],
+      nutrients: {},
+    },
+    saturday: {
+      meals: [],
+      nutrients: {},
+    },
+    sunday: {
+      meals: [],
+      nutrients: {},
+    },
+  });
 
   const handleSubmit = async (event) => {
+    setLoadingGenerateMeal(true);
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
@@ -86,7 +117,10 @@ const PersonalMeal = () => {
 
     const Diet = await dietResponse.json();
     console.log("API DATA: ", Diet);
-    setDiet(Diet.data.week);
+    await setDiet(Diet);
+    setDiet2(Diet.data.week);
+    console.log("SET DATA: ", Diet);
+    setLoadingGenerateMeal(false);
   };
 
   const saveMeal = async () => {
@@ -96,12 +130,14 @@ const PersonalMeal = () => {
       publishAsPublic: false,
     };
 
+    console.log("Diet before mods: ", diet);
+
     var numday = 0;
-    for (const day in diet.week) {
+    for (const day in diet.data.week) {
       numday += 1;
       var slot = 0;
-      for (const meal in diet.week[day].meals) {
-        console.log(diet.week[day].meals[meal].id);
+      for (const meal in diet.data.week[day].meals) {
+        console.log(diet.data.week[day].meals[meal].id);
         slot += 1;
         PushData.items.push({
           day: numday,
@@ -109,43 +145,35 @@ const PersonalMeal = () => {
           position: 0,
           type: "RECIPE",
           value: {
-            id: diet.week[day].meals[meal].id,
-            servings: diet.week[day].meals[meal].servings,
-            title: diet.week[day].meals[meal].title,
-            imageType: diet.week[day].meals[meal].imageType,
+            id: diet.data.week[day].meals[meal].id,
+            servings: diet.data.week[day].meals[meal].servings,
+            title: diet.data.week[day].meals[meal].title,
+            imageType: diet.data.week[day].meals[meal].imageType,
           },
         });
       }
     }
-    console.log("Before Sending", PushData);
 
-    await fetch(
-      `http://localhost:3002/meal/saveMeal`,
-      {
-        method: "POST",
-        body: JSON.stringify({PushData, user}),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    await fetch(`http://localhost:3002/meal/saveMeal`, {
+      method: "POST",
+      body: JSON.stringify({ PushData, email: user.email }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
-      .then((data) => console.log("RECIEVED DATA:", data))
       .catch((error) => console.error("Error:", error));
   };
 
-  // const mealsForWeek = diet.week;
-  // const days = Object.keys(mealsForWeek);
-
-  const daysOfWeek = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+  // const daysOfWeek = [
+  //   "Monday",
+  //   "Tuesday",
+  //   "Wednesday",
+  //   "Thursday",
+  //   "Friday",
+  //   "Saturday",
+  //   "Sunday",
+  // ];
   return (
     <Container
       className={classes.container}
@@ -206,25 +234,55 @@ const PersonalMeal = () => {
         </Grid>
         <Grid item xs={false} sm={4} md={7}>
           <Box>
-            {diet.monday.meals.length !== 0 ? (
+            {diet2.monday.meals.length !== 0 ? (
               <Box>
-                <h2>To View Week Meal Plan</h2>
-                <h3>Save Meal Plan</h3>
-
-                <lable for="inputBox">Enter a name for your meal plan </lable>
                 <input id="inputBox" type="text" onChange={handleInputChange} />
                 <br />
                 <button onClick={() => saveMeal()}>Save Meal Plan</button>
               </Box>
             ) : (
-              <Typography variant="h4" style={{ padding: "120px" }}>
-                Click On Generate Meal Plan
-              </Typography>
+              <Box
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {!loadingGenerateMeal ? (
+                  <Typography variant="h3" style={{ padding: "120px" }}>
+                    Click On Generate Meal Plan
+                  </Typography>
+                ) : (
+                  <CircularProgress />
+                )}
+              </Box>
             )}
           </Box>
         </Grid>
       </Grid>
-      {diet.monday.meals.length !== 0 && <MyTable items={diet.monday} />}
+      {console.log("Before Sending", diet2)}
+      {diet2.map}
+
+      {diet2.monday.meals.length !== 0 && (
+        <Box>
+          {Object.keys(diet2).map((day, index) => {
+            const meals = diet2[day].meals;
+            return (
+              <div key={index}>
+                <h2>{day}</h2>
+                <ul>
+                  {meals.map((meal) => (
+                    <li key={meal.id}>
+                      <h3>{meal.title}</h3>
+                      <p>Servings: {meal.servings}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </Box>
+      )}
     </Container>
   );
 };

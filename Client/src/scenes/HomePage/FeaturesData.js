@@ -7,7 +7,7 @@ export const dataFeatures = [
       desc:
         "Easily generate and save meal plans for the week. Our advanced algorithm takes your dietary preferences and restrictions into account to create a personalized plan just for you.",
       btn: "Start Planning",
-      href: "/meal-planning",
+      href: "/meal",
     },
     {
       id: 2,
@@ -17,7 +17,7 @@ export const dataFeatures = [
       desc:
         "Manage all of your favorite recipes in one place. Add new recipes, edit existing ones, and organize them by category for easy access.Look for Steps , accurate ingredients and Nutritional information.",
       btn: "Manage Recipes",
-      href: "/recipe-management",
+      href: "/recipe",
     },
     {
       id: 3,
@@ -27,7 +27,7 @@ export const dataFeatures = [
       desc:
         "Got a question about your diet or health? Our AI chat bot is here to help. Get personalized answers and recommendations from our advanced AI technology.",
       btn: "Chat Now",
-      href: "/ai-chat-bot",
+      href: "/chatBot",
     },
     {
       id: 4,
@@ -37,7 +37,7 @@ export const dataFeatures = [
       desc:
         "Need more personalized support? Our team of experienced dieticians are available to help. Schedule a live chat or video call to get one-on-one advice and guidance.",
       btn: "Get Support",
-      href: "/live-support",
+      href: "/support",
     },
   ];
   

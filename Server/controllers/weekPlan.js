@@ -4,11 +4,44 @@ import { getUserByEmail } from "../services/userService.js";
 
 dotenv.config();
 
+/* DELETE MEAL PLAN  */
+
+export const deleteMealPlan = async (req, res) => {
+  console.log("delete Meal Plan");
+  try {
+    const { user, id } = req.body;
+    
+    const response = await fetch(
+      `https://api.spoonacular.com/mealplanner/${user.spoonacularUsername}/templates/${id}?hash=${user.spoonacularHash}&apiKey=${process.env.SPOONACULAR_API_KEY}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log({ data });
+    return res.status(200).redirect("/myMealPlans");
+  } catch (error) {
+    console.error("Error deleting meal plan:", error);
+    res.status(500).json({
+      error: {
+        message: "An error occurred during your request.",
+      },
+    });
+  }
+};
+
+
+
 /* SAVE PERSONAL WEEK PLAN  */
 
 export const saveWeekPlan = async (req, res) => {
   try {
-    const { PushData, user } = req.body;
+    const { PushData, email } = req.body;
+
+    const user = await getUserByEmail(email);
 
     const response = await fetch(
       `https://api.spoonacular.com/mealplanner/${user.spoonacularUsername}/templates?hash=${user.spoonacularHash}&apiKey=${process.env.SPOONACULAR_API_KEY}`,

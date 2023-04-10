@@ -1,11 +1,19 @@
-import { Typography, Container, Button, Grid, Card, CardMedia, CardContent, CardActions, Link } from "@material-ui/core";
+import {
+  Typography,
+  Container,
+  Button,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Link,
+} from "@material-ui/core";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import useStyles from "../../components/style";
 import { dataFeatures } from "./FeaturesData.js";
 import { styled } from "@mui/material/styles";
-
-
 
 const StyledButton = styled(Button)({
   background: "#7C5EB9",
@@ -22,12 +30,9 @@ const StyledButton = styled(Button)({
   },
 });
 
-const FeaturesCard = ({ imgSrc, title, desc, btn }) => {
+const FeaturesCard = ({ imgSrc, title, desc, btn, href }) => {
   const classes = useStyles();
   const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
-
-
-  
 
   const variants = {
     hidden: {
@@ -47,10 +52,7 @@ const FeaturesCard = ({ imgSrc, title, desc, btn }) => {
 
   return (
     <Grid item md={6} ref={ref}>
-      <motion.div
-        variants={variants}
-        animate={inView ? "visible" : "hidden"}
-      >
+      <motion.div variants={variants} animate={inView ? "visible" : "hidden"}>
         <Card>
           <CardMedia
             className={classes.cardMedia}
@@ -64,7 +66,7 @@ const FeaturesCard = ({ imgSrc, title, desc, btn }) => {
             <Typography>{desc}</Typography>
           </CardContent>
           <CardActions style={{ justifyContent: "center" }}>
-            <Link href="#">
+            <Link href={href}>
               <StyledButton variant="contained" color="primary">
                 {btn}
               </StyledButton>
@@ -97,6 +99,7 @@ const FeaturesSection = () => {
               title={data.title}
               desc={data.desc}
               btn={data.btn}
+              href={data.href}
             />
           ))}
         </Grid>

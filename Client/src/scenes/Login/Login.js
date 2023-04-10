@@ -50,6 +50,8 @@ export default function Login() {
           token: loggedIn.token,
         })
       );
+    }
+    if (loggedInResponse.ok) {
       navigate("/");
     }
   };

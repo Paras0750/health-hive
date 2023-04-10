@@ -6,7 +6,6 @@ import Navbar from "../scenes/NavBar/Navbar";
 // import NewNav from "../scenes/NavBar/NewNav";
 import WelcomePage from "../scenes/HomePage/WelcomePage";
 import Bmi from "../scenes/BMIPage/Bmi";
-import Nurtition from "../scenes/NurtitionalAnalysis/NurtitionalAnalysis";
 import Login from "../scenes/Login/Login";
 import Register from "../scenes/Register/Register";
 import PersonalMeal from "../scenes/PersonalMealPage/PersonalMeal";
@@ -26,7 +25,6 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<WelcomePage />} />
-          <Route path="/analysis" element={<Nurtition />} />
           <Route path="/meal" element={<PersonalMeal />} />
           <Route path="/recipe" element={<Recipe />} />
           <Route path="/recipe/:recipeId" element={<SingleRecipe />} />

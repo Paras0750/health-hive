@@ -20,10 +20,7 @@ const pages = [
     name: "Personalized Meal",
     herf: "/meal",
   },
-  {
-    name: "Nutritional Analysis",
-    herf: "/analysis",
-  },
+
   {
     name: "Recipe Managment",
     herf: "/recipe",

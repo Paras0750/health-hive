@@ -7,6 +7,7 @@ const SingleRecipe = () => {
   const { recipeId } = useParams();
   const [imageDataUrl, setImageDataUrl] = useState("");
 
+  console.log(imageDataUrl);
   useEffect(() => {
     fetch(`http://localhost:3002/meal/recipeSearch`, {
       method: "POST",
@@ -47,8 +48,6 @@ const SingleRecipe = () => {
               recipe.extendedIngredients.map((item) => (
                 <tr key={item.id}>
                   <td>
-
-                    <img src={imageDataUrl} alt="Nutrition widget" />
                     <img
                       src={`https://spoonacular.com/cdn/ingredients_100x100/${item.image}`}
                       alt={item.originalName}
