@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import initialData from "./data";
 import Dish from "./Dish";
 import { Link } from "react-router-dom";
+import "./singlerecipe.css";
 
 function Recipe() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,7 +32,9 @@ function Recipe() {
 
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>Recipes</h1>
+      <h1 className="test" style={{ textAlign: "center" }}>
+        Recipes
+      </h1>
       <form style={{ textAlign: "center" }} onSubmit={handleSearchSubmit}>
         <label htmlFor="search">
           <strong fontWeight="400px">Search for a recipe:</strong>

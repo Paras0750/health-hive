@@ -17,14 +17,8 @@ const SingleRecipe = () => {
       },
     })
       .then((data) => data.json())
-      .then(({ data, imageData }) => {
-        console.log(imageData);
+      .then(({ data }) => {
         setRecipe(data);
-        setImageDataUrl(
-          `data:image/png;base64,${btoa(
-            String.fromCharCode(...new Uint8Array(imageData))
-          )}`
-        );
       })
       .catch((error) => console.error("Error:", error));
   }, [recipeId]);
