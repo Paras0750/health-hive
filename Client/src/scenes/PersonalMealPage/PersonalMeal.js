@@ -4,6 +4,7 @@ import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "../../components/style";
 import { useSelector } from "react-redux";
+import MyTable from "./MyTable";
 
 const diets = [
   "Anything",
@@ -85,7 +86,7 @@ const PersonalMeal = () => {
 
     const Diet = await dietResponse.json();
     console.log("API DATA: ", Diet);
-    setDiet(Diet);
+    setDiet(Diet.data.week);
   };
 
   const saveMeal = async () => {
@@ -129,7 +130,7 @@ const PersonalMeal = () => {
       }
     )
       .then((response) => response.json())
-      .then((data) => console.log("SENT DATA:", data))
+      .then((data) => console.log("RECIEVED DATA:", data))
       .catch((error) => console.error("Error:", error));
   };
 
@@ -205,38 +206,27 @@ const PersonalMeal = () => {
         </Grid>
         <Grid item xs={false} sm={4} md={7}>
           <Box>
-            {diet ? (
+            {diet.monday.meals.length !== 0 ? (
               <Box>
+                <h2>To View Week Meal Plan</h2>
+                <h3>Save Meal Plan</h3>
+
+                <lable for="inputBox">Enter a name for your meal plan </lable>
                 <input id="inputBox" type="text" onChange={handleInputChange} />
                 <br />
                 <button onClick={() => saveMeal()}>Save Meal Plan</button>
               </Box>
             ) : (
-              <Typography variant="h3" style={{ padding: "120px" }}>
+              <Typography variant="h4" style={{ padding: "120px" }}>
                 Click On Generate Meal Plan
               </Typography>
             )}
           </Box>
         </Grid>
       </Grid>
+      {diet.monday.meals.length !== 0 && <MyTable items={diet.monday} />}
     </Container>
   );
 };
 
 export default PersonalMeal;
-{
-  /* <MealPopup
-        title="Calories calculator"
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
-        diets={diets}
-      ></MealPopup> */
-}
-{
-  /* <Typography>
-              Don't know? Calculate your information -
-              <Button variant="contained" onClick={() => setOpenPopup(true)}>
-                Calculate
-              </Button>
-            </Typography> */
-}

@@ -1,63 +1,9 @@
 import fetch from "node-fetch";
 import { Configuration, OpenAIApi } from "openai";
-import User from "../models/user.js";
 import dotenv from "dotenv";
+import User from "../models/user.js";
 
 dotenv.config();
-
-/* SEARCH RECIPE LIST */
-
-export const findRecipes = async (req, res) => {
-  try {
-    console.log("Started fetching recipe details");
-    const { searchTerm } = req.body;
-    console.log(searchTerm);
-    const response = await fetch(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&number=10&query=${searchTerm}`
-    );
-    console.log(response);
-    const data = await response.json();
-    return res.status(200).json({ data });
-  } catch (error) {
-    console.error("Error fetching recipe details:", error);
-    res.status(500).json({
-      error: {
-        message: "An error occurred during your request.",
-      },
-    });
-  }
-};
-
-
-
-/* SINGLE RECIPE SEARCH */
-
-export const searchRecipe = async (req, res) => {
-  try {
-    console.log("Started fetching recipe details");
-    const { recipeId } = req.body;
-
-    const response = await fetch(
-      `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${process.env.SPOONACULAR_API_KEY}&includeNutrition=false`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log(response);
-    const data = await response.json();
-    return res.status(200).json({ data });
-  } catch (error) {
-    console.error("Error fetching recipe details:", error);
-    res.status(500).json({
-      error: {
-        message: "An error occurred during your request.",
-      },
-    });
-  }
-};
 
 /* CHAT GPT INTEGRATION */
 
@@ -97,6 +43,8 @@ const ALLOWED_PROMPTS = [
   "Dietician",
 ];
 
+/* CHAT GPT INTEGRATION */
+
 export const askGPT = async (req, res) => {
   console.log("Started asking GPT");
 
@@ -107,6 +55,17 @@ export const askGPT = async (req, res) => {
     const isAllowedPrompt = ALLOWED_PROMPTS.some((keyword) =>
       prompt.toLowerCase().includes(keyword.toLowerCase())
     );
+
+    if (prompt.toLowerCase().includes("live support" || "dietician")) {
+      return res.status(200).json({
+        result: "Support page link:http://localhost:3000/support",
+      });
+    }
+    if (prompt.toLowerCase().includes("my meal plan")) {
+      return res.status(200).json({
+        result: "Meal plan page link:http://localhost:3000/mealplan",
+      });
+    }
 
     // If the prompt is not related to the allowed topics, return an error message
     if (!isAllowedPrompt) {
@@ -156,6 +115,69 @@ export const askGPT = async (req, res) => {
   }
 };
 
+/* SEARCH RECIPE LIST */
+
+export const findRecipes = async (req, res) => {
+  try {
+    console.log("Started fetching recipe details");
+    const { searchTerm } = req.query;
+    console.log(searchTerm);
+    const response = await fetch(
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&number=10&query=${searchTerm}`
+    );
+
+    console.log(response);
+    const data = await response.json();
+    return res.status(200).json({ data });
+  } catch (error) {
+    console.error("Error fetching recipe details:", error);
+    res.status(500).json({
+      error: {
+        message: "An error occurred during your request.",
+      },
+    });
+  }
+};
+
+/* SINGLE RECIPE SEARCH */
+
+export const searchRecipe = async (req, res) => {
+  try {
+    console.log("Started fetching recipe details");
+    const { recipeId } = req.body;
+
+    const response = await fetch(
+      `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${process.env.SPOONACULAR_API_KEY}&includeNutrition=true`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+
+    const imageUrl = `https://api.spoonacular.com/recipes/${recipeId}/nutritionWidget.png?apiKey=${process.env.SPOONACULAR_API_KEY}&defaultCss=true`;
+    const imageResponse = await fetch(imageUrl);
+
+    const imageBuffer = await imageResponse.arrayBuffer();
+    const imageData = Buffer.from(imageBuffer);
+
+    res.set('Content-Type', 'image/png');
+    res.send({data, imageData});
+  } catch (error) {
+    console.error("Error fetching recipe details:", error);
+    res.status(500).json({
+      error: {
+        message: "An error occurred during your request.",
+      },
+    });
+  }
+};
+
+
+
+
 /* GENERATE MEAL FOR USER */
 
 export const generateMeal = async (req, res) => {
@@ -197,5 +219,28 @@ export const generateMeal = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const getRecipeImage = async (req, res) => {
+  try {
+    const { recipeId } = req.params;
+
+    const imageUrl = `https://api.spoonacular.com/recipes/${recipeId}/nutritionWidget.png?apiKey=${process.env.SPOONACULAR_API_KEY}&defaultCss=true`;
+    const imageResponse = await fetch(imageUrl);
+
+    const imageBuffer = await imageResponse.arrayBuffer();
+    const imageData = Buffer.from(imageBuffer);
+
+    res.set('Content-Type', 'image/png');
+    console.log(imageData);
+    res.send(imageData);
+  } catch (error) {
+    console.error("Error fetching recipe image:", error);
+    res.status(500).json({
+      error: {
+        message: "An error occurred during your request.",
+      },
+    });
   }
 };
