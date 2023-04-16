@@ -1,0 +1,51 @@
+.meal-plan-details-container {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.meal-plan-details h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.meal-plan-container {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.meal-plan-row {
+  display: table-row;
+}
+
+.meal-plan-cell {
+  display: table-cell;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.meal-plan-header {
+  font-weight: bold;
+  background-color: #f2f2f2;
+}
+.meal-plan-cell p {
+  font-size: 12px;
+}
+
+.meal-plan-cell p.title {
+  font-size: 16px;
+}
+
+.meal-plan-cell img {
+  margin-bottom: 10px;
+}
+
+.meal-plan-cell p:not(:first-child) {
+  margin-top: 5px;
+}
+
+.meal-plan-header h4 {
+  font-size: 1.5rem;
+}

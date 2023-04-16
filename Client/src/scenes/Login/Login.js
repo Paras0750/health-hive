@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,17 +13,48 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { setLogin } from "../../state/state";
+import { BASE_URL } from "../../services/helper";
 
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+
+  console.log(user);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+
+    const newdata = {
       email: data.get("email"),
       password: data.get("password"),
+    };
+    const loggedInResponse = await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      body: JSON.stringify(newdata),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+    const loggedIn = await loggedInResponse.json();
+    console.log(loggedIn);
+
+    if (loggedIn) {
+      dispatch(
+        setLogin({
+          user: loggedIn.user,
+          token: loggedIn.token,
+        })
+      );
+    }
+    if (loggedInResponse.ok) {
+      navigate("/");
+    }
   };
 
   return (
@@ -61,6 +93,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
+
             <Box
               component="form"
               noValidate
@@ -113,6 +146,7 @@ export default function Login() {
               </Grid>
             </Box>
           </Box>
+          
         </Grid>
       </Grid>
     </ThemeProvider>

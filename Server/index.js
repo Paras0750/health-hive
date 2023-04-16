@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.js";
+import mealRoutes from "./routes/meal.js";
 
 /* Configurations */
 
@@ -22,14 +23,14 @@ app.use(cors());
 /* ROUTES */
 
 app.use("/auth", authRoutes);
-
+app.use("/meal", mealRoutes);
 
 /* MONGOOSE SETUP */
 
 const PORT = process.env.PORT || 6001;
 
 mongoose
-  .connect(process.env.MONGOURLTEMP, {
+  .connect(process.env.MONGOURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -39,3 +40,5 @@ mongoose
   .catch((error) => {
     console.log(`Didn't connected : ${error}`);
   });
+
+

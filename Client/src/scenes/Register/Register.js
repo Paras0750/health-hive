@@ -10,17 +10,35 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../services/helper";
 
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+
+    const newdata = {
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
       email: data.get("email"),
       password: data.get("password"),
+    };
+
+    const savedUserResponse = await fetch(`${BASE_URL}/auth/register`, {
+      method: "POST",
+      body: JSON.stringify(newdata),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+
+    if (savedUserResponse.ok) {
+      navigate("/login");
+    }
   };
 
   return (
@@ -69,11 +87,19 @@ export default function Login() {
                 margin="normal"
                 required
                 fullWidth
-                id="name"
-                label="Enter Full Name"
-                name="name"
+                id="firstName"
+                label="Enter First Name"
+                name="firstName"
                 autoComplete="name"
-                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="lastName"
+                label="Enter Last Name"
+                name="lastName"
+                autoComplete="name"
               />
               <TextField
                 margin="normal"
@@ -83,7 +109,6 @@ export default function Login() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
               />
               <TextField
                 margin="normal"

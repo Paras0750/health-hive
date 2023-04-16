@@ -27,7 +27,6 @@ const FrontPage = () => {
               marginTop: "150px",
               background:
                 "url('https://img.freepik.com/free-vector/online-doctor-consultation-illustration_88138-414.jpg?w=2000&t=st=1677364388~exp=1677364988~hmac=9044279e8416c2bec32e1932c3f3edc968a38746d7f753c625b22cec7c5d1536') top/cover no-repeat",
-              // "url('https://www.shutterstock.com/image-illustration/3d-render-human-doctor-cartoon-600w-1984521056.jpg') no-repeat",
               height: "50vh",
               width: "100%",
             }}

@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@600&display=swap");
+
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Baloo Bhai 2", cursive;
+}
+
+#recipe > img {
+  display: block;
+  margin: auto;
+  width: 50%;
+  border: 2px solid black;
+  border-radius: 25px;
+}
+
+#recipe .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+table {
+  width: 50%;
+}
+
+thead,
+tbody,
+tr,
+th,
+td {
+  text-align: center;
+  border: 2px solid black;
+  border-collapse: collapse;
+  border-style: double;
+  padding: 10px;
+}
+
+thead {
+  font-size: 2rem;
+}
+
+.page-wrap {
+  border: 2px solid rgb(0, 4, 113);
+  margin: 30px 10px;
+  border-radius: 15px;
+  background-color: rgb(230, 243, 251);
+  padding: 20px;
+}
+
+.faq {
+  counter-reset: my-badass-counter;
+}
+
+.faq dt {
+  position: relative;
+  padding: 4px 0px 20px 5px;
+  font-size: 16px;
+  padding-left: 20px;
+}
+
+.faq dt::before {
+  content: counter(my-badass-counter);
+  counter-increment: my-badass-counter;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 28px;
+  padding: 0px 10px 0px 0px;
+}
+
+.h-primary {
+  text-align: center;
+  font-size: 3.5rem;
+}
+
+.h-tertiary {
+  text-align: center;
+  font-size: 2.5rem;
+}

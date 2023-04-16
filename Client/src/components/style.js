@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
   },
   navbar: {
     marginBottom: "60px",
-    backgroundColor: "#45D592",
   },
   head: {
     color: "#26D699",
