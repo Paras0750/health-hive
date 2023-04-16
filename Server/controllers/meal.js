@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { Configuration, OpenAIApi } from "openai";
 import dotenv from "dotenv";
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 dotenv.config();
 
@@ -58,12 +58,12 @@ export const askGPT = async (req, res) => {
 
     if (prompt.toLowerCase().includes("live support" || "dietician")) {
       return res.status(200).json({
-        result: "Support page link:http://localhost:3000/support",
+        result: `Support page link: ${process.env.BASE_URL}/support`,
       });
     }
     if (prompt.toLowerCase().includes("my meal plan")) {
       return res.status(200).json({
-        result: "Meal plan page link:http://localhost:3000/mealplan",
+        result: `Meal plan page link: ${process.env.BASE_URL}/mealplan`,
       });
     }
 

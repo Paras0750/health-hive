@@ -1,6 +1,5 @@
 import { Box } from "@mui/system";
 import React from "react";
-import Agora from "../VideoCalling/Agora";
 import Banner from "./Banner/Banner";
 
 const Contact = () => {

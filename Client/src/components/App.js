@@ -3,9 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Contact from "../scenes/Contact/Contact";
 import Footer from "./Footer";
 import Navbar from "../scenes/NavBar/Navbar";
-// import NewNav from "../scenes/NavBar/NewNav";
 import WelcomePage from "../scenes/HomePage/WelcomePage";
-import Bmi from "../scenes/BMIPage/Bmi";
 import Login from "../scenes/Login/Login";
 import Register from "../scenes/Register/Register";
 import PersonalMeal from "../scenes/PersonalMealPage/PersonalMeal";
@@ -33,7 +31,6 @@ function App() {
           <Route path="/support/videoCall" element={<Agora />} />
           <Route path="/chatBot" element={<ChatBot />} />
           <Route path="/myMealPlans/:id" element={<MealPlanDetails />} />
-          <Route path="/bmi" element={<Bmi />} />
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -11,6 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../services/helper";
 
 const theme = createTheme();
 
@@ -27,16 +28,13 @@ export default function Login() {
       password: data.get("password"),
     };
 
-    const savedUserResponse = await fetch(
-      "http://localhost:3002/auth/register",
-      {
-        method: "POST",
-        body: JSON.stringify(newdata),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const savedUserResponse = await fetch(`${BASE_URL}/auth/register`, {
+      method: "POST",
+      body: JSON.stringify(newdata),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (savedUserResponse.ok) {
       navigate("/login");

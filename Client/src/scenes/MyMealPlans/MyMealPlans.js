@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../services/helper"
 
 const MyMealPlans = () => {
   const user = useSelector((state) => state.user);
@@ -10,7 +11,7 @@ const MyMealPlans = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3002/meal/allMealPlans`,
+          `${BASE_URL}/meal/allMealPlans`,
           {
             method: "POST",
             body: JSON.stringify({ email: user.email }),
@@ -34,7 +35,7 @@ const MyMealPlans = () => {
     console.log("MEAL PLANS: ",mealPlans);
     try {
       const response = await fetch(
-        `http://localhost:3002/meal/deleteMealPlan`,
+        `${BASE_URL}/meal/deleteMealPlan`,
         {
           method: "POST",
           body: JSON.stringify({ user: user, id: id }),

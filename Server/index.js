@@ -30,7 +30,7 @@ app.use("/meal", mealRoutes);
 const PORT = process.env.PORT || 6001;
 
 mongoose
-  .connect(process.env.MONGOURLTEMP, {
+  .connect(process.env.MONGOURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

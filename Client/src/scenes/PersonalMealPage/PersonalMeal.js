@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { CircularProgress, Container, Grid } from "@material-ui/core";
+import { CircularProgress, Container, InputLabel } from "@material-ui/core";
 import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "../../components/style";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../services/helper";
+import FlexCenter from "../../components/FlexCenter";
 
 const diets = [
   "Anything",
@@ -26,6 +29,7 @@ const PersonalMeal = () => {
   const [inputValue, setInputValue] = useState("Default");
   const user = useSelector((state) => state.user);
   const [loadingGenerateMeal, setLoadingGenerateMeal] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -94,9 +98,19 @@ const PersonalMeal = () => {
   });
 
   const handleSubmit = async (event) => {
-    setLoadingGenerateMeal(true);
+    console.log(user);
+    if (user === null) {
+      navigate("/login");
+    }
+
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
+    if (!data.get("calories") || !selectedDiet) {
+      // If either field is empty, show an error message
+      alert("Please select a diet and enter your calorie goal.");
+      return;
+    }
 
     const newdata = {
       diet: selectedDiet,
@@ -104,20 +118,18 @@ const PersonalMeal = () => {
       exclude: data.get("exclude"),
     };
 
-    const dietResponse = await fetch(
-      `http://localhost:3002/meal/generateMeal`,
-      {
-        method: "POST",
-        body: JSON.stringify(newdata),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    setLoadingGenerateMeal(true);
+    const dietResponse = await fetch(`${BASE_URL}/meal/generateMeal`, {
+      method: "POST",
+      body: JSON.stringify(newdata),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     const Diet = await dietResponse.json();
     console.log("API DATA: ", Diet);
-    await setDiet(Diet);
+    setDiet(Diet);
     setDiet2(Diet.data.week);
     console.log("SET DATA: ", Diet);
     setLoadingGenerateMeal(false);
@@ -154,7 +166,7 @@ const PersonalMeal = () => {
       }
     }
 
-    await fetch(`http://localhost:3002/meal/saveMeal`, {
+    await fetch(`${BASE_URL}/meal/saveMeal`, {
       method: "POST",
       body: JSON.stringify({ PushData, email: user.email }),
       headers: {
@@ -165,64 +177,56 @@ const PersonalMeal = () => {
       .catch((error) => console.error("Error:", error));
   };
 
-  // const daysOfWeek = [
-  //   "Monday",
-  //   "Tuesday",
-  //   "Wednesday",
-  //   "Thursday",
-  //   "Friday",
-  //   "Saturday",
-  //   "Sunday",
-  // ];
   return (
     <Container
       className={classes.container}
-      style={{ flexDirection: "column" }}
+      style={{ flexDirection: "column", background: "" }}
     >
-      <Grid container>
-        <Grid item md={5}>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
-          >
-            <Typography variant="h2" style={{ margin: "20px 0px" }}>
-              Upgrade your Diet
-            </Typography>
-            <Typography variant="h3" style={{ margin: "20px 0px" }}>
-              With Personalized Meal Plans
-            </Typography>
-            <Typography variant="h5">Step 1.Select a diet</Typography>
+      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Typography variant="h3" style={{ margin: "20px 0px" }}>
+          Upgrade your Diet
+        </Typography>
+        <Typography variant="h2" style={{ margin: "20px 0px" }}>
+          Personalized Meal Plans
+        </Typography>
 
-            <Autocomplete
-              disablePortal
-              name="diet"
-              id="combo-box-demo"
-              options={diets}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField {...params} label="Choose Diet" />
-              )}
-              style={{ display: "block", margin: "12px" }}
-              value={selectedDiet}
-              onChange={(event, newValue) => {
-                setSelectedDiet(newValue);
-              }}
-            />
+        <FlexCenter flexDirection="column">
+          <Typography variant="h5">Select a diet</Typography>
+          <Autocomplete
+            disablePortal
+            name="diet"
+            id="combo-box-demo"
+            options={diets}
+            sx={{ width: 300, margin: "20px 0px" }}
+            renderInput={(params) => (
+              <TextField {...params} label="Choose Diet" />
+            )}
+            value={selectedDiet}
+            onChange={(event, newValue) => {
+              setSelectedDiet(newValue);
+            }}
+          />
+          <Typography variant="h5">Enter your calories</Typography>
+          <TextField
+            label="Calories"
+            name="calories"
+            sx={{ margin: "20px 0px", width: 300 }}
+          />
+          <TextField
+            label="Intolerant food (optional)"
+            name="exclude"
+            sx={{ margin: "12px", width: 300 }}
+          />
 
-            <Typography variant="h5">Step 2.Enter your calories</Typography>
-            <TextField
-              label="Calories"
-              name="calories"
-              style={{ display: "block", margin: "12px" }}
-            />
-            <TextField
-              label="Intolerant food (optional)"
-              name="exclude"
-              style={{ display: "block", margin: "12px" }}
-            />
-
+          {diet2.monday.meals.length !== 0 ? (
+            <Button
+              variant="contained"
+              style={{ margin: "12px" }}
+              type="submit"
+            >
+              Regenerate meal plan
+            </Button>
+          ) : (
             <Button
               variant="contained"
               style={{ margin: "12px" }}
@@ -230,59 +234,101 @@ const PersonalMeal = () => {
             >
               Generate my meal plan
             </Button>
-          </Box>
-        </Grid>
-        <Grid item xs={false} sm={4} md={7}>
-          <Box>
-            {diet2.monday.meals.length !== 0 ? (
-              <Box>
-                <input id="inputBox" type="text" onChange={handleInputChange} />
-                <br />
-                <button onClick={() => saveMeal()}>Save Meal Plan</button>
-              </Box>
-            ) : (
+          )}
+        </FlexCenter>
+      </Box>
+      <div
+        style={{ backgroundColor: "#f5f5f5", width: "100%", padding: "20px" }}
+      >
+        <Box>
+          {diet2.monday.meals.length !== 0 ? (
+            <Box style={{ margin: "40px" }}>
               <Box
-                style={{
+                sx={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  marginTop: "12px",
+                  flexDirection: "column",
                 }}
               >
-                {!loadingGenerateMeal ? (
-                  <Typography variant="h3" style={{ padding: "120px" }}>
-                    Click On Generate Meal Plan
-                  </Typography>
-                ) : (
-                  <CircularProgress />
-                )}
-              </Box>
-            )}
-          </Box>
-        </Grid>
-      </Grid>
-      {console.log("Before Sending", diet2)}
-      {diet2.map}
+                <Typography variant="h2" sx={{margin: "40px"}}>
+                  Generated Meal Plan
+                </Typography>
+                <InputLabel htmlFor="inputBox" sx={{ margin: "20px 0px" }}>
+                  Give Meal Plan A Name
+                </InputLabel>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "12px",
+                  }}
+                >
+                  <br />
 
-      {diet2.monday.meals.length !== 0 && (
-        <Box>
-          {Object.keys(diet2).map((day, index) => {
-            const meals = diet2[day].meals;
-            return (
-              <div key={index}>
-                <h2>{day}</h2>
-                <ul>
-                  {meals.map((meal) => (
-                    <li key={meal.id}>
-                      <h3>{meal.title}</h3>
-                      <p>Servings: {meal.servings}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
+                  <input
+                    id="inputBox"
+                    type="text"
+                    onChange={handleInputChange}
+                    sx={{ borderRadius: "8px", padding: "8px", width: "400px" }}
+                  />
+                  <Button
+                    onClick={() => saveMeal()}
+                    variant="contained"
+                    sx={{
+                      borderRadius: "8px",
+                      marginLeft: "8px",
+                      textTransform: "none",
+                    }}
+                  >
+                    Save Meal Plan
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          ) : (
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {!loadingGenerateMeal ? (
+                <Typography variant="h3" style={{ padding: "120px" }}>
+                  Click On Generate Meal Plan
+                </Typography>
+              ) : (
+                <Box style={{ margin: "60px 0px" }}>
+                  <CircularProgress />
+                </Box>
+              )}
+            </Box>
+          )}
         </Box>
-      )}
+        {console.log("Before Sending", diet2)}
+
+        {diet2.monday.meals.length !== 0 && (
+          <Box>
+            {Object.keys(diet2).map((day, index) => {
+              const meals = diet2[day].meals;
+              return (
+                <div key={index}>
+                  <h2>{day}</h2>
+                  <ul>
+                    {meals.map((meal) => (
+                      <li key={meal.id}>
+                        <h3>{meal.title}</h3>
+                        <p>Servings: {meal.servings}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </Box>
+        )}
+      </div>
     </Container>
   );
 };

@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./recipestyle.css";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../services/helper";
 
 const SingleRecipe = () => {
   const [recipe, setRecipe] = useState({});
   const { recipeId } = useParams();
-  const [imageDataUrl, setImageDataUrl] = useState("");
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
 
-  console.log(imageDataUrl);
   useEffect(() => {
-    fetch(`http://localhost:3002/meal/recipeSearch`, {
+    if (user === null) {
+      navigate("/login");
+    }
+
+    fetch(`${BASE_URL}/meal/recipeSearch`, {
       method: "POST",
       body: JSON.stringify({ recipeId }),
       headers: {
@@ -18,10 +25,11 @@ const SingleRecipe = () => {
     })
       .then((data) => data.json())
       .then(({ data }) => {
+        console.log(data);
         setRecipe(data);
       })
       .catch((error) => console.error("Error:", error));
-  }, [recipeId]);
+  }, [recipeId, user, navigate]);
 
   return (
     <section id="recipe">

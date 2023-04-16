@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../state/state";
+import { BASE_URL } from "../../services/helper";
 
 const theme = createTheme();
 
@@ -33,7 +34,7 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    const loggedInResponse = await fetch("http://localhost:3002/auth/login", {
+    const loggedInResponse = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       body: JSON.stringify(newdata),
       headers: {

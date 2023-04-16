@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import "./meal.css";
-
+import { BASE_URL } from "../../services/helper";
 const MealPlanDetails = () => {
   const user = useSelector((state) => state.user);
   const { id } = useParams();
@@ -11,7 +11,7 @@ const MealPlanDetails = () => {
   useEffect(() => {
     const fetchMealPlanDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/meal/weekPlan`, {
+        const response = await fetch(`${BASE_URL}/meal/weekPlan`, {
           method: "POST",
           body: JSON.stringify({ id: id, email: user.email }),
           headers: {

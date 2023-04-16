@@ -4,10 +4,15 @@ import initialData from "./data";
 import Dish from "./Dish";
 import { Link } from "react-router-dom";
 import "./singlerecipe.css";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../services/helper";
 
 function Recipe() {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState(initialData);
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -15,7 +20,12 @@ function Recipe() {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    fetch(`http://localhost:3002/meal/findRecipe`, {
+
+    if (user === null) {
+      navigate("/login");
+    }
+
+    fetch(`${BASE_URL}/meal/findRecipe`, {
       method: "POST",
       body: JSON.stringify({ searchTerm }),
       headers: {
