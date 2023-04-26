@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./recipestyle.css";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../services/helper";
+import { CircularProgress } from "@material-ui/core";
+import FlexCenter from "../../components/FlexCenter";
 
 const SingleRecipe = () => {
   const [recipe, setRecipe] = useState({});
   const { recipeId } = useParams();
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const [imageDataUrl, setImageDataUrl] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user === null) {
-      navigate("/login");
-    }
+    setLoading(true);
 
     fetch(`${BASE_URL}/meal/recipeSearch`, {
       method: "POST",
@@ -24,82 +22,97 @@ const SingleRecipe = () => {
       },
     })
       .then((data) => data.json())
-      .then(({ data }) => {
-        console.log(data);
+      .then(({ data, imageData }) => {
+        console.log(imageData);
         setRecipe(data);
+        setImageDataUrl(
+          `data:image/png;base64,${btoa(
+            String.fromCharCode(...new Uint8Array(imageData))
+          )}`
+        );
+        setLoading(false);
       })
       .catch((error) => console.error("Error:", error));
-  }, [recipeId, user, navigate]);
+  }, [recipeId]);
 
   return (
     <section id="recipe">
-      <h1 class="h-primary">{recipe.title}</h1>
-      <img src={recipe.image} alt={recipe.title} />
+      {loading ? (
+        <FlexCenter margin="250px 0px">
+          <CircularProgress />
+          <div style={{ marginLeft: "20px" }}>Fetching Data...</div>
+        </FlexCenter>
+      ) : (
+        <>
+          <h1 class="h-primary">{recipe.title}</h1>
+          <img src={recipe.image} alt={recipe.title} />
 
-      <div class="content">
-        <h3 class="h-tertiary">Ingredients:</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Items</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recipe.extendedIngredients &&
-              recipe.extendedIngredients.map((item) => (
-                <tr key={item.id}>
-                  <td>
-                    <img
-                      src={`https://spoonacular.com/cdn/ingredients_100x100/${item.image}`}
-                      alt={item.originalName}
-                      style={{
-                        height: "50px",
-                        width: "45px",
-                      }}
-                    />
-                    {item.originalName}
-                  </td>
-                  <td>{`${item.amount} ${item.unit}`}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-
-        {recipe.nutrition && (
-          <div class="page-wrap">
-            <h3 class="h-tertiary">Nutrition:</h3>
+          <div class="content">
+            <h3 class="h-tertiary">Ingredients:</h3>
             <table>
               <thead>
                 <tr>
-                  <th>Nutrient</th>
-                  <th>Amount</th>
-                  <th>% Daily Value</th>
+                  <th>Items</th>
+                  <th>Quantity</th>
                 </tr>
               </thead>
               <tbody>
-                {recipe.nutrition.nutrients.map((nutrient) => (
-                  <tr key={nutrient.name}>
-                    <td>{nutrient.name}</td>
-                    <td>{nutrient.amount}</td>
-                    <td>{nutrient.percentOfDailyNeeds}</td>
-                  </tr>
-                ))}
+                {recipe.extendedIngredients &&
+                  recipe.extendedIngredients.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        <img
+                          src={`https://spoonacular.com/cdn/ingredients_100x100/${item.image}`}
+                          alt={item.originalName}
+                          style={{
+                            height: "50px",
+                            width: "45px",
+                          }}
+                        />
+                        {item.originalName}
+                      </td>
+                      <td>{`${item.amount} ${item.unit}`}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
-          </div>
-        )}
 
-        <div class="page-wrap">
-          <h3 class="h-tertiary">Instructions:</h3>
-          <dl class="faq">
-            {recipe.analyzedInstructions &&
-              recipe.analyzedInstructions[0].steps.map((step) => (
-                <dt key={step.number}>{step.step}</dt>
-              ))}
-          </dl>
-        </div>
-      </div>
+            {recipe.nutrition && (
+              <div class="page-wrap">
+                <h3 class="h-tertiary">Nutrition:</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nutrient</th>
+                      <th>Amount</th>
+                      <th>% Daily Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recipe.nutrition.nutrients.map((nutrient) => (
+                      <tr key={nutrient.name}>
+                        <td>{nutrient.name}</td>
+                        <td>{nutrient.amount}</td>
+                        <td>{nutrient.percentOfDailyNeeds}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <div class="page-wrap">
+              <h3 class="h-tertiary">Instructions:</h3>
+              <dl class="faq">
+                {recipe.analyzedInstructions &&
+                  recipe.analyzedInstructions[0].steps.map((step) => (
+                    <dt key={step.number}>{step.step}</dt>
+                  ))}
+              </dl>
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 };

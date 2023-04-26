@@ -102,7 +102,7 @@ const Navbar = () => {
                       input={<InputBase />}
                     >
                       <MenuItem color="white" value={fullName}>
-                        <Typography color="white" margin="10px">
+                        <Typography style={{color:"white"}}  margin="10px">
                           {fullName}
                         </Typography>
                       </MenuItem>
@@ -114,7 +114,10 @@ const Navbar = () => {
                           My Meal Plans
                         </Link>
                       </MenuItem>
-                      <MenuItem onClick={() => dispatch(setLogout())}>
+                      <MenuItem
+                        style={{ fontWeight: "bold" }}
+                        onClick={() => dispatch(setLogout())}
+                      >
                         Log Out
                       </MenuItem>
                     </Select>

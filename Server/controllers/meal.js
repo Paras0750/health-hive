@@ -120,14 +120,14 @@ export const askGPT = async (req, res) => {
 export const findRecipes = async (req, res) => {
   try {
     console.log("Started fetching recipe details");
-    const { searchTerm } = req.query;
+    const { searchTerm } = req.body;
     console.log(searchTerm);
     const response = await fetch(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&number=10&query=${searchTerm}`
     );
 
-    console.log(response);
     const data = await response.json();
+    console.log(data);
     return res.status(200).json({ data });
   } catch (error) {
     console.error("Error fetching recipe details:", error);
@@ -235,6 +235,7 @@ export const getRecipeImage = async (req, res) => {
     res.set('Content-Type', 'image/png');
     console.log(imageData);
     res.send(imageData);
+    
   } catch (error) {
     console.error("Error fetching recipe image:", error);
     res.status(500).json({

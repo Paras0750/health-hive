@@ -31,6 +31,7 @@ function App() {
           <Route path="/support/videoCall" element={<Agora />} />
           <Route path="/chatBot" element={<ChatBot />} />
           <Route path="/myMealPlans/:id" element={<MealPlanDetails />} />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
         <Footer />
       </BrowserRouter>

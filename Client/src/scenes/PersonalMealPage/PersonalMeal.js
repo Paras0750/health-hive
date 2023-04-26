@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CircularProgress, Container, InputLabel } from "@material-ui/core";
+import { CircularProgress, Container, Grid } from "@material-ui/core";
 import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import useStyles from "../../components/style";
@@ -29,10 +29,15 @@ const PersonalMeal = () => {
   const [inputValue, setInputValue] = useState("Default");
   const user = useSelector((state) => state.user);
   const [loadingGenerateMeal, setLoadingGenerateMeal] = useState(false);
+  const [isMealSaved, setIsMealSaved] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
+  };
+
+  const handleButtonClick = (event) => {
+    window.scrollTo(0, document.body.scrollHeight);
   };
 
   const [diet, setDiet] = useState({
@@ -98,12 +103,16 @@ const PersonalMeal = () => {
   });
 
   const handleSubmit = async (event) => {
-    console.log(user);
+    event.preventDefault();
+    setIsMealSaved(false);
+    
     if (user === null) {
       navigate("/login");
+      return;
     }
 
-    event.preventDefault();
+    handleButtonClick();
+
     const data = new FormData(event.currentTarget);
 
     if (!data.get("calories") || !selectedDiet) {
@@ -174,6 +183,8 @@ const PersonalMeal = () => {
       },
     })
       .then((response) => response.json())
+      .then((data) => console.log(data))
+      .then(setIsMealSaved(true))
       .catch((error) => console.error("Error:", error));
   };
 
@@ -182,63 +193,93 @@ const PersonalMeal = () => {
       className={classes.container}
       style={{ flexDirection: "column", background: "" }}
     >
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-        <Typography variant="h3" style={{ margin: "20px 0px" }}>
-          Upgrade your Diet
-        </Typography>
-        <Typography variant="h2" style={{ margin: "20px 0px" }}>
-          Personalized Meal Plans
-        </Typography>
+      <Grid container spacing={2}>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          lg={6}
+          style={{
+            backgroundImage: `url('https://aicontentfy.com/hubfs/Blog/a%20robot%20and%20stack%20of%20papers%20in%20flat%20illustration%20style%20with%20gradients%20and%20white%20background_compressed%20b14e7452-f586-4f03-a16a-1e0793837ffc.jpg')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            minWidth: "600px",
+          }}
+        />
+        <Grid item xs={12} md={4} lg={6}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 1 }}
+          >
+            <Typography variant="h3" style={{ margin: "20px 0px" }}>
+              Upgrade your Diet
+            </Typography>
+            <Typography variant="h2" style={{ margin: "20px 0px" }}>
+              Personalized Meal Plans
+            </Typography>
 
-        <FlexCenter flexDirection="column">
-          <Typography variant="h5">Select a diet</Typography>
-          <Autocomplete
-            disablePortal
-            name="diet"
-            id="combo-box-demo"
-            options={diets}
-            sx={{ width: 300, margin: "20px 0px" }}
-            renderInput={(params) => (
-              <TextField {...params} label="Choose Diet" />
-            )}
-            value={selectedDiet}
-            onChange={(event, newValue) => {
-              setSelectedDiet(newValue);
-            }}
-          />
-          <Typography variant="h5">Enter your calories</Typography>
-          <TextField
-            label="Calories"
-            name="calories"
-            sx={{ margin: "20px 0px", width: 300 }}
-          />
-          <TextField
-            label="Intolerant food (optional)"
-            name="exclude"
-            sx={{ margin: "12px", width: 300 }}
-          />
+            <FlexCenter flexDirection="column">
+              <Typography variant="h5">Select a diet</Typography>
+              <Autocomplete
+                disablePortal
+                name="diet"
+                id="combo-box-demo"
+                options={diets}
+                sx={{ width: 300, margin: "20px 0px" }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Choose Diet" />
+                )}
+                value={selectedDiet}
+                onChange={(event, newValue) => {
+                  setSelectedDiet(newValue);
+                }}
+              />
+              <Typography variant="h5">Enter your calories</Typography>
+              <TextField
+                label="Calories"
+                name="calories"
+                sx={{ margin: "20px 0px", width: 300 }}
+              />
+              <TextField
+                label="Intolerant food (optional)"
+                name="exclude"
+                sx={{ margin: "12px", width: 300 }}
+              />
 
-          {diet2.monday.meals.length !== 0 ? (
-            <Button
-              variant="contained"
-              style={{ margin: "12px" }}
-              type="submit"
-            >
-              Regenerate meal plan
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              style={{ margin: "12px" }}
-              type="submit"
-            >
-              Generate my meal plan
-            </Button>
-          )}
-        </FlexCenter>
-      </Box>
+              {diet2.monday.meals.length !== 0 ? (
+                <Button
+                  variant="contained"
+                  style={{ margin: "12px" }}
+                  type="submit"
+                >
+                  Regenerate meal plan
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  style={{ margin: "12px" }}
+                  type="submit"
+                >
+                  Generate my meal plan
+                </Button>
+              )}
+            </FlexCenter>
+          </Box>
+        </Grid>
+      </Grid>
+
+      {/* GENEREATED MEAL SECTION */}
+
       <div
-        style={{ backgroundColor: "#f5f5f5", width: "100%", padding: "20px" }}
+        style={{
+          backgroundColor: "#f5f5f5",
+          width: "100%",
+          padding: "20px",
+          margin: "90px 0px",
+        }}
       >
         <Box>
           {diet2.monday.meals.length !== 0 ? (
@@ -251,12 +292,10 @@ const PersonalMeal = () => {
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h2" sx={{margin: "40px"}}>
-                  Generated Meal Plan
+                <Typography variant="h2" sx={{ margin: "40px" }}>
+                  Personalized Generated Meal Plan
                 </Typography>
-                <InputLabel htmlFor="inputBox" sx={{ margin: "20px 0px" }}>
-                  Give Meal Plan A Name
-                </InputLabel>
+
                 <Box
                   sx={{
                     display: "flex",
@@ -266,23 +305,63 @@ const PersonalMeal = () => {
                 >
                   <br />
 
-                  <input
-                    id="inputBox"
-                    type="text"
-                    onChange={handleInputChange}
-                    sx={{ borderRadius: "8px", padding: "8px", width: "400px" }}
-                  />
-                  <Button
-                    onClick={() => saveMeal()}
-                    variant="contained"
-                    sx={{
-                      borderRadius: "8px",
-                      marginLeft: "8px",
-                      textTransform: "none",
-                    }}
-                  >
-                    Save Meal Plan
-                  </Button>
+                  {isMealSaved ? (
+                    <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginTop: "12px",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <h2>Meal Plan Saved.</h2>
+                        <Button
+                          href="/myMealPlans"
+                          variant="contained"
+                          sx={{
+                            borderRadius: "8px",
+                            marginLeft: "8px",
+                            textTransform: "none",
+                          }}
+                        >
+                          See All Meal Plans
+                        </Button>
+                      </Box>
+                    </>
+                  ) : (
+                    <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginTop: "12px",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <TextField
+                          size="small"
+                          label="Give Meal Plan A Name"
+                          name="Saved Name"
+                          onChange={handleInputChange}
+                          sx={{ margin: "20px 0px", width: 300 }}
+                        />
+
+                        <Button
+                          size="small"
+                          onClick={() => saveMeal()}
+                          variant="contained"
+                          sx={{
+                            borderRadius: "8px",
+                            marginLeft: "8px",
+                            textTransform: "none",
+                          }}
+                        >
+                          Save Meal Plan
+                        </Button>
+                      </Box>
+                    </>
+                  )}
                 </Box>
               </Box>
             </Box>
@@ -313,16 +392,20 @@ const PersonalMeal = () => {
             {Object.keys(diet2).map((day, index) => {
               const meals = diet2[day].meals;
               return (
-                <div key={index}>
-                  <h2>{day}</h2>
-                  <ul>
-                    {meals.map((meal) => (
-                      <li key={meal.id}>
-                        <h3>{meal.title}</h3>
-                        <p>Servings: {meal.servings}</p>
-                      </li>
-                    ))}
-                  </ul>
+                <div key={index} style={{ margin: "30px" }}>
+                  <h2 style={{ textTransform: "capitalize" }}>
+                    Day {index + 1}
+                  </h2>
+                  <div style={{ margin: "15px 5px 45px 45px" }}>
+                    <ul>
+                      {meals.map((meal) => (
+                        <li key={meal.id}>
+                          <h3>{meal.title}</h3>
+                          <p>Servings: {meal.servings}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               );
             })}

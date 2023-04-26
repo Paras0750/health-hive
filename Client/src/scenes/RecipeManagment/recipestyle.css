@@ -3,7 +3,7 @@
 * {
   margin: 0px;
   padding: 0px;
-  font-family: "Baloo Bhai 2", cursive;
+  font-family: "Baloo Bhai 2", sans-serif;
 }
 
 #recipe > img {
@@ -51,7 +51,7 @@ thead {
 }
 
 .faq {
-  counter-reset: my-badass-counter;
+  counter-reset: my-counter;
 }
 
 .faq dt {
@@ -62,8 +62,8 @@ thead {
 }
 
 .faq dt::before {
-  content: counter(my-badass-counter);
-  counter-increment: my-badass-counter;
+  content: counter(my-counter);
+  counter-increment: my-counter;
   position: absolute;
   left: 0;
   top: 0;

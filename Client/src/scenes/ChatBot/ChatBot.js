@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { BASE_URL, WEBSITE_LINK } from "../../services/helper";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
@@ -33,16 +34,13 @@ function App() {
     }
     setIsLoading(true);
     try {
-      const response = await fetch(
-        `https://backendhealthhive.onrender.com/meal/askAI`,
-        {
-          method: "POST",
-          body: JSON.stringify({ prompt: inputValue }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URL}/meal/askAI`, {
+        method: "POST",
+        body: JSON.stringify({ prompt: inputValue }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       setResponse(data.result);
     } catch (error) {
@@ -58,6 +56,7 @@ function App() {
         backgroundColor: "#f5f5f5",
         padding: "20px",
         minHeight: "500px",
+        margin: "100px 80px",
       }}
     >
       <div style={{ textAlign: "center", margin: "40" }}>
@@ -141,9 +140,7 @@ function App() {
           ) : line.startsWith("Meal plan page") ? (
             <button
               key={index}
-              onClick={() =>
-                (window.location.href = "http://localhost:3000/myMealPlans")
-              }
+              onClick={() => (window.location.href = `/myMealPlans`)}
               style={{
                 backgroundColor: "#4caf50",
                 color: "#fff",
@@ -152,16 +149,15 @@ function App() {
                 border: "none",
                 outline: "none",
                 cursor: "pointer",
+                margin: "15px 20px",
               }}
             >
               Visit Meal Plan Page
             </button>
-          ) : line.startsWith(" Support page link:") ? (
+          ) : line.startsWith("Support page link:") ? (
             <button
               key={index}
-              onClick={() =>
-                (window.location.href = "http://localhost:3000/support")
-              }
+              onClick={() => (window.location.href = `/support`)}
               style={{
                 backgroundColor: "#4caf50",
                 color: "#fff",
@@ -170,6 +166,7 @@ function App() {
                 border: "none",
                 outline: "none",
                 cursor: "pointer",
+                margin: "15px 20px",
               }}
             >
               Visit Support Page

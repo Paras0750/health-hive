@@ -7,6 +7,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.js";
 import mealRoutes from "./routes/meal.js";
+import { verifyToken } from "./middleware/auth.js";
+
 
 /* Configurations */
 
@@ -40,5 +42,3 @@ mongoose
   .catch((error) => {
     console.log(`Didn't connected : ${error}`);
   });
-
-

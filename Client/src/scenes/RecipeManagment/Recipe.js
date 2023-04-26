@@ -1,12 +1,11 @@
-import { Paper } from "@mui/material";
 import React, { useState } from "react";
 import initialData from "./data";
 import Dish from "./Dish";
 import { Link } from "react-router-dom";
-import "./singlerecipe.css";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../services/helper";
+import "./recipe.css";
 
 function Recipe() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -41,35 +40,27 @@ function Recipe() {
   };
 
   return (
-    <div>
-      <h1 className="test" style={{ textAlign: "center" }}>
-        Recipes
-      </h1>
-      <form style={{ textAlign: "center" }} onSubmit={handleSearchSubmit}>
-        <label htmlFor="search">
-          <strong fontWeight="400px">Search for a recipe:</strong>
-        </label>
-        <input type="text" value={searchTerm} onChange={handleSearchChange} />
-        <button type="submit">Search</button>
+    <div className="RecipeContainer">
+      <h1>Recipes</h1>
+      <form onSubmit={handleSearchSubmit}>
+        <div className="SearchContainer">
+          <label htmlFor="search">Search for a recipe:</label>
+          <input type="text" value={searchTerm} onChange={handleSearchChange} />
+          <button type="submit">Search</button>
+        </div>
       </form>
 
-      <Paper
-        sx={{
-          margin: "20px 30px",
-          padding: "40px 50px",
-          border: "1px solid gray",
-        }}
-      >
+      <div className="DishesContainer" style={{ width: "1000px" }}>
         {data.results && data.results.length > 0 ? (
           data.results.map((dish) => (
-            <Link to={`/recipe/${dish.id}`} key={dish.id}>
-              <Dish title={dish.title} image={dish.image} id={dish.id}></Dish>
+            <Link to={`/recipe/${dish.id}`} key={dish.id} className="DishLink">
+              <Dish title={dish.title} image={dish.image} />
             </Link>
           ))
         ) : (
           <div>No results found.</div>
         )}
-      </Paper>
+      </div>
     </div>
   );
 }

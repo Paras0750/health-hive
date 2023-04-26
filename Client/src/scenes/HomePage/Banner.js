@@ -9,7 +9,7 @@ const Banner = () => {
     background: "#7C5EB9",
     borderRadius: 30,
     border: 0,
-    color: "white",
+    // color: "white",
     height: 48,
     padding: "0 30px",
     boxShadow: "0 3px 5px 2px rgba(124, 94, 185, .3)",
@@ -42,7 +42,7 @@ const Banner = () => {
         Get answers to all your diet-related questions with our AI chatbot and live dietician support.
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-        <StyledButton variant="contained">Get Started</StyledButton>
+        <StyledButton variant="contained" href="/meal">Get Started</StyledButton>
       </Box>
     </div>
   );

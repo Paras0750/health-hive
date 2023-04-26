@@ -1,0 +1,60 @@
+.RecipeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.SearchContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.SearchContainer label {
+  margin-right: 10px;
+}
+
+.SearchContainer input[type="text"] {
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.SearchContainer button[type="submit"] {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+}
+
+.DishesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+}
+
+.DishLink {
+  text-decoration: none;
+  color: inherit;
+  padding: 15px;
+}
+
+.Dish {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.DishImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.DishTitle {
+  font-size: 20px;
+  margin-top: 5px;
+  text-align: center;
+}
