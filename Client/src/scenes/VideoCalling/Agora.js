@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AgoraUIKit from "agora-react-uikit";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Agora = () => {
   const [videoCall, setVideoCall] = useState(true);
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) navigate("/login");
+  }, [user, navigate]);
 
   const rtcProps = {
     appId: "1febb52632df4ba0a1379d3450774342",

@@ -90,7 +90,7 @@ const FeaturesSection = () => {
       >
         FEATURES WE PROVIDE
       </Typography>
-      <Container className={classes.cardGrid} maxWidth="md" shadow>
+      <Container className={classes.cardGrid} maxWidth="md">
         <Grid container justifyContent="space-between" spacing={5}>
           {dataFeatures.map((data, index) => (
             <FeaturesCard

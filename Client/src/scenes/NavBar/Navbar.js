@@ -5,7 +5,6 @@ import { InputBase, Select, MenuItem, FormControl } from "@mui/material";
 import {
   Typography,
   AppBar,
-  CssBaseline,
   Toolbar,
   Button,
   Box,
@@ -14,6 +13,7 @@ import {
 } from "@material-ui/core";
 import useStyles from "../../components/style";
 import FlexBetween from "../../components/FlexBetween";
+import { useNavigate } from "react-router-dom";
 
 const pages = [
   {
@@ -39,6 +39,7 @@ const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   let fullName = "";
 
@@ -48,8 +49,6 @@ const Navbar = () => {
 
   return (
     <>
-      <CssBaseline />
-
       <AppBar position="relative" className={classes.navbar}>
         <Toolbar>
           <Grid
@@ -60,7 +59,7 @@ const Navbar = () => {
           >
             <Grid item md>
               <Link href="/" style={{ color: "white", textDecoration: "none" }}>
-                <Typography variant="h6">Health-Hive</Typography>
+                <Typography variant="h5">Health-Hive</Typography>
               </Link>
             </Grid>
             <Grid item md={8}>
@@ -69,7 +68,7 @@ const Navbar = () => {
                   <Link
                     key={index}
                     href={page.herf}
-                    style={{ color: "white", textDecoration: "none" }}
+                    style={{ color: "black", textDecoration: "none" }}
                   >
                     <Button style={{ color: "white" }} className={classes.link}>
                       {page.name}
@@ -102,7 +101,7 @@ const Navbar = () => {
                       input={<InputBase />}
                     >
                       <MenuItem color="white" value={fullName}>
-                        <Typography style={{color:"white"}}  margin="10px">
+                        <Typography style={{ color: "white" }} margin="10px">
                           {fullName}
                         </Typography>
                       </MenuItem>
@@ -116,7 +115,10 @@ const Navbar = () => {
                       </MenuItem>
                       <MenuItem
                         style={{ fontWeight: "bold" }}
-                        onClick={() => dispatch(setLogout())}
+                        onClick={() => {
+                          dispatch(setLogout());
+                          navigate("/");
+                        }}
                       >
                         Log Out
                       </MenuItem>

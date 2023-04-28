@@ -5,6 +5,7 @@ import "./meal.css";
 import { BASE_URL } from "../../services/helper";
 const MealPlanDetails = () => {
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const { id } = useParams();
   const [weekPlan, setWeekPlan] = useState({ id: null, name: "", days: [] });
 
@@ -16,6 +17,7 @@ const MealPlanDetails = () => {
           body: JSON.stringify({ id: id, email: user.email }),
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
         const data = await response.json();
@@ -27,7 +29,7 @@ const MealPlanDetails = () => {
     };
 
     fetchMealPlanDetails();
-  }, [id, user.email]);
+  }, [id, user.email,token]);
 
   const daysOfWeek = [
     "Monday",

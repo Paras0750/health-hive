@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./recipestyle.css";
 import { BASE_URL } from "../../services/helper";
+import { useSelector } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
 import FlexCenter from "../../components/FlexCenter";
+import { useNavigate } from "react-router-dom";
 
 const SingleRecipe = () => {
   const [recipe, setRecipe] = useState({});
   const { recipeId } = useParams();
-  const [imageDataUrl, setImageDataUrl] = useState("");
   const [loading, setLoading] = useState(true);
+  const token = useSelector((state) => state.token);
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user) return navigate("/login");
+
     setLoading(true);
 
     fetch(`${BASE_URL}/meal/recipeSearch`, {
@@ -19,21 +25,16 @@ const SingleRecipe = () => {
       body: JSON.stringify({ recipeId }),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((data) => data.json())
-      .then(({ data, imageData }) => {
-        console.log(imageData);
+      .then(({ data }) => {
         setRecipe(data);
-        setImageDataUrl(
-          `data:image/png;base64,${btoa(
-            String.fromCharCode(...new Uint8Array(imageData))
-          )}`
-        );
         setLoading(false);
       })
       .catch((error) => console.error("Error:", error));
-  }, [recipeId]);
+  }, [recipeId, token, navigate, user]);
 
   return (
     <section id="recipe">
@@ -44,42 +45,42 @@ const SingleRecipe = () => {
         </FlexCenter>
       ) : (
         <>
-          <h1 class="h-primary">{recipe.title}</h1>
+          <h1 class="h-primary">{recipe.title}:</h1>
           <img src={recipe.image} alt={recipe.title} />
+          <ul>
+            <li>
+              <h3 class="h-tertiary">Ingredients:</h3>
+            </li>
+            <div class="content">
+              {recipe.extendedIngredients &&
+                recipe.extendedIngredients.map((item) => (
+                  <p key={item.id}>
+                    <div class="inner-content">
+                      {" "}
+                      <p class="p1">{`${item.amount} ${item.unit}`}</p>{" "}
+                    </div>
+                    <div class="inner-content">
+                      <img
+                        src={`https://spoonacular.com/cdn/ingredients_100x100/${item.image}`}
+                        alt={item.originalName}
+                        style={{
+                          height: "90px",
+                          width: "100px",
+                        }}
+                      />
+                    </div>
+                    <div class="inner-content">
+                      <p class="p2">{item.originalName}</p>
+                    </div>
+                  </p>
+                ))}
+            </div>
 
-          <div class="content">
-            <h3 class="h-tertiary">Ingredients:</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Items</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recipe.extendedIngredients &&
-                  recipe.extendedIngredients.map((item) => (
-                    <tr key={item.id}>
-                      <td>
-                        <img
-                          src={`https://spoonacular.com/cdn/ingredients_100x100/${item.image}`}
-                          alt={item.originalName}
-                          style={{
-                            height: "50px",
-                            width: "45px",
-                          }}
-                        />
-                        {item.originalName}
-                      </td>
-                      <td>{`${item.amount} ${item.unit}`}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-
+            <li>
+              <h3 class="h-tertiary">Nutrition:</h3>
+            </li>
             {recipe.nutrition && (
-              <div class="page-wrap">
-                <h3 class="h-tertiary">Nutrition:</h3>
+              <div class="page-wraper">
                 <table>
                   <thead>
                     <tr>
@@ -101,8 +102,10 @@ const SingleRecipe = () => {
               </div>
             )}
 
-            <div class="page-wrap">
+            <li>
               <h3 class="h-tertiary">Instructions:</h3>
+            </li>
+            <div class="page-wrap">
               <dl class="faq">
                 {recipe.analyzedInstructions &&
                   recipe.analyzedInstructions[0].steps.map((step) => (
@@ -110,7 +113,7 @@ const SingleRecipe = () => {
                   ))}
               </dl>
             </div>
-          </div>
+          </ul>
         </>
       )}
     </section>

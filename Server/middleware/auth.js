@@ -2,12 +2,9 @@ import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
   try {
-    let token = eaders("Authorization");
+    let token = req.header("Authorization");
     if (!token) {
-      return res
-        .status(403)
-        .json({ error: "No token provided" })
-        .redirect("/login");
+      return res.status(402).json({ error: "No token provided" });
     }
     if (token.startsWith("Bearer ")) {
       token = token.slice(7, token.length).trimLeft();
@@ -18,6 +15,7 @@ export const verifyToken = (req, res, next) => {
 
     next();
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.log("error : ", err);
+    return res.status(402).json({ error: "No token provided" });
   }
 };

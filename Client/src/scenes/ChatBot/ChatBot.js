@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { BASE_URL, WEBSITE_LINK } from "../../services/helper";
+import { BASE_URL } from "../../services/helper";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const navigate = useNavigate();
 
   const sampleQueries = [
@@ -39,6 +40,7 @@ function App() {
         body: JSON.stringify({ prompt: inputValue }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();

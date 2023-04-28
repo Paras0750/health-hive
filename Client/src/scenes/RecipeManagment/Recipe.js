@@ -12,6 +12,7 @@ function Recipe() {
   const [data, setData] = useState(initialData);
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -29,6 +30,7 @@ function Recipe() {
       body: JSON.stringify({ searchTerm }),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -50,7 +52,7 @@ function Recipe() {
         </div>
       </form>
 
-      <div className="DishesContainer" style={{ width: "1000px" }}>
+      <div className="DishesContainer">
         {data.results && data.results.length > 0 ? (
           data.results.map((dish) => (
             <Link to={`/recipe/${dish.id}`} key={dish.id} className="DishLink">

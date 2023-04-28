@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     flexDirection: "column",
     height: "100%",
+    marginBottom: "60px",
   },
   text: {
     color: theme.palette.common.white,

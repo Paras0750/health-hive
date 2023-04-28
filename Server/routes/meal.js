@@ -10,7 +10,7 @@ import {
   allMealPlans,
   createWeekPlan,
   saveWeekPlan,
-  deleteMealPlan
+  deleteMealPlan,
 } from "../controllers/weekPlan.js";
 
 const router = express.Router();
@@ -22,7 +22,7 @@ router.post("/recipeImage/:id", getRecipeImage);
 router.post("/generateMeal", createWeekPlan);
 router.post("/saveMeal", saveWeekPlan);
 
-// router.post("/generateMeal", generateMeal);
+
 router.post("/askAI", askGPT);
 router.post("/weekPlan", weekPlan);
 router.post("/allMealPlans", allMealPlans);

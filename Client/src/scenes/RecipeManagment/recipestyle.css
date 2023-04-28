@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&display=swap");
 
 * {
   margin: 0px;
@@ -6,52 +6,94 @@
   font-family: "Baloo Bhai 2", sans-serif;
 }
 
+section ul {
+  list-style: square;
+  font-size: 30px;
+}
+section ol, ul {
+  padding-left: 3rem;
+}
+
 #recipe > img {
   display: block;
   margin: auto;
   width: 50%;
-  border: 2px solid black;
-  border-radius: 25px;
+  border: 3px solid black;
+  border-radius: 15px;
+  margin-bottom: 20px;
+
 }
 
 #recipe .content {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 10px 20px 0px 20px;
+  background-color: rgb(249, 249, 249);
+  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+}
+
+.inner-content {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  margin-top: 50px;
+  padding: 2px 20px 2px 20px;
+}
+
+.inner-content .p1 {
+  font-size: 20px;
+}
+
+.inner-content .p2 {
+  font-size: 14px;
+}
+
+.page-wraper {
+  /* border: 2px solid rgb(0, 4, 113); */
+  margin: 15px 10px;
+  border-radius: 15px;
+  background-color: rgb(249, 249, 249);
+  padding: 20px;
+  width: 900px;
 }
 
 table {
-  width: 50%;
-}
-
-thead,
-tbody,
-tr,
-th,
-td {
   text-align: center;
-  border: 2px solid black;
+  font-family: Verdana;
+  font-size: 14px;
   border-collapse: collapse;
-  border-style: double;
-  padding: 10px;
+  width: 850px;
 }
 
-thead {
-  font-size: 2rem;
+td,
+th {
+  padding: 10px;
+  text-align: left;
+  margin: 0;
+}
+
+tbody tr:nth-child(2n) {
+  background-color: #eee;
+}
+
+th {
+  position: sticky; 
+  top: 0;
+  background-color: #333;
+  color: white;
 }
 
 .page-wrap {
-  border: 2px solid rgb(0, 4, 113);
-  margin: 30px 10px;
+  margin: 15px 10px;
   border-radius: 15px;
-  background-color: rgb(230, 243, 251);
+  background-color: rgb(249, 249, 249);
   padding: 20px;
 }
 
 .faq {
-  counter-reset: my-counter;
+  counter-reset: my-badass-counter;
 }
 
 .faq dt {
@@ -62,8 +104,8 @@ thead {
 }
 
 .faq dt::before {
-  content: counter(my-counter);
-  counter-increment: my-counter;
+  content: counter(my-badass-counter);
+  counter-increment: my-badass-counter;
   position: absolute;
   left: 0;
   top: 0;
@@ -73,10 +115,10 @@ thead {
 
 .h-primary {
   text-align: center;
-  font-size: 3.5rem;
+  font-size: 3rem;
 }
 
 .h-tertiary {
-  text-align: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
+  padding: 20px 20px 0px 20px;
 }

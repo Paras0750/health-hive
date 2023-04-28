@@ -1,12 +1,12 @@
 .result {
   font-size: 18px;
-  margin-top: 20px;
+  margin-top: auto;
 }
 
 .loading {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: auto;
+  height: auto;
   border-radius: 50%;
   border: 3px solid rgba(0, 0, 0, 0.1);
   border-top-color: #4caf50;

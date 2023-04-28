@@ -123,7 +123,7 @@ export const findRecipes = async (req, res) => {
     const { searchTerm } = req.body;
     console.log(searchTerm);
     const response = await fetch(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&number=10&query=${searchTerm}`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.SPOONACULAR_API_KEY}&number=50&query=${searchTerm}`
     );
 
     const data = await response.json();
@@ -163,8 +163,8 @@ export const searchRecipe = async (req, res) => {
     const imageBuffer = await imageResponse.arrayBuffer();
     const imageData = Buffer.from(imageBuffer);
 
-    res.set('Content-Type', 'image/png');
-    res.send({data, imageData});
+    res.set("Content-Type", "image/png");
+    res.send({ data, imageData });
   } catch (error) {
     console.error("Error fetching recipe details:", error);
     res.status(500).json({
@@ -174,9 +174,6 @@ export const searchRecipe = async (req, res) => {
     });
   }
 };
-
-
-
 
 /* GENERATE MEAL FOR USER */
 
@@ -232,10 +229,9 @@ export const getRecipeImage = async (req, res) => {
     const imageBuffer = await imageResponse.arrayBuffer();
     const imageData = Buffer.from(imageBuffer);
 
-    res.set('Content-Type', 'image/png');
+    res.set("Content-Type", "image/png");
     console.log(imageData);
     res.send(imageData);
-    
   } catch (error) {
     console.error("Error fetching recipe image:", error);
     res.status(500).json({

@@ -28,6 +28,7 @@ const PersonalMeal = () => {
   const [selectedDiet, setSelectedDiet] = useState(null);
   const [inputValue, setInputValue] = useState("Default");
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const [loadingGenerateMeal, setLoadingGenerateMeal] = useState(false);
   const [isMealSaved, setIsMealSaved] = useState(false);
   const navigate = useNavigate();
@@ -105,7 +106,7 @@ const PersonalMeal = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsMealSaved(false);
-    
+
     if (user === null) {
       navigate("/login");
       return;
@@ -133,6 +134,7 @@ const PersonalMeal = () => {
       body: JSON.stringify(newdata),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -180,6 +182,7 @@ const PersonalMeal = () => {
       body: JSON.stringify({ PushData, email: user.email }),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
@@ -224,7 +227,7 @@ const PersonalMeal = () => {
             <FlexCenter flexDirection="column">
               <Typography variant="h5">Select a diet</Typography>
               <Autocomplete
-                disablePortal
+                // disablePortal
                 name="diet"
                 id="combo-box-demo"
                 options={diets}

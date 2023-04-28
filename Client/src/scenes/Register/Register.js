@@ -55,16 +55,20 @@ export default function Login() {
   };
 
   return (
-    <Box component={Paper} elevation={6} square style={{ margin: "0% 20%" }}>
+    <Box
+      component={Paper}
+      elevation={6}
+      square
+      style={{ margin: "0% 5%", padding: "1% 8%" }}
+    >
       <Box
         sx={{
-          my: 8,
-          mx: 4,
+          my: 4,
+          mx: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           gap: "15px",
-          padding: "60px 100px",
         }}
       >
         <FlexCenter flexDirection="column">
@@ -80,7 +84,7 @@ export default function Login() {
           component="form"
           noValidate
           onSubmit={handleSubmit}
-          sx={{ mt: 1, width: "450px" }}
+          sx={{ mt: 1, width: "100%" }}
         >
           <TextField
             margin="normal"

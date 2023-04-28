@@ -65,18 +65,19 @@ export default function Login() {
       elevation={6}
       square
       style={{
-        margin: "0% 20%",
+        margin: "0% 10%",
+        padding: "20px",
       }}
     >
-      <Box style={{ padding: "60px 80px" }}>
+      <Box>
         <Box
           sx={{
-            my: 8,
-            mx: 4,
+            my: 2,
+            mx: 1,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "25px",
+            gap: "20px",
           }}
         >
           <FlexCenter flexDirection="column">
@@ -114,7 +115,7 @@ export default function Login() {
               autoComplete="current-password"
             />
             {loading ? (
-              <FlexCenter margin="50px">
+              <FlexCenter margin="20px">
                 <CircularProgress />
               </FlexCenter>
             ) : (
@@ -127,13 +128,13 @@ export default function Login() {
                 Sign In
               </Button>
             )}
-            <Grid container>
+            <Grid container spacing={2}>
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
+              <Grid item xs>
                 <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
